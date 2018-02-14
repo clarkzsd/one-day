@@ -3,22 +3,24 @@ const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  entry: {
-    app: './src/index.js'
-  },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public')
+    path: path.resolve(__dirname, 'public'),
+    publicPath: '/'
   },
   module: {
       rules: [
         {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
+          include: path.join(__dirname, 'src'),
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env', '@babel/preset-react']
+              presets: ['@babel/preset-env', '@babel/preset-react'],
+              plugins: [
+                'react-hot-loader/babel'
+              ]
             }
           }
         },

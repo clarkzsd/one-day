@@ -1,8 +1,15 @@
 const webpack = require('webpack');
+const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:8080',
+    'webpack/hot/only-dev-server',
+    './src/index.js'
+  ],
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './public',
@@ -12,9 +19,4 @@ module.exports = merge(common, {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
-  loaders: [{
-    test: /\.js$/,
-    loaders: ['react-hot-loader/webpack', 'babel'],
-    include: path.join(__dirname, 'src')
-  }]
 });
