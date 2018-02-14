@@ -12,4 +12,9 @@ module.exports = merge(common, {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
+  loaders: [{
+    test: /\.js$/,
+    loaders: ['react-hot-loader/webpack', 'babel'],
+    include: path.join(__dirname, 'src')
+  }]
 });
