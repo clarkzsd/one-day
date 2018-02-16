@@ -1,0 +1,13 @@
+button {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+}
+
+i.material-icons {
+  color: #fff;
+}
+
+.inner {
+  padding: 0 16px;
+}
