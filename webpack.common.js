@@ -1,6 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   output: {
@@ -9,34 +7,34 @@ module.exports = {
     publicPath: '/'
   },
   module: {
-      rules: [
-        {
-          test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
-          include: path.join(__dirname, 'src'),
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env', '@babel/preset-react'],
-              plugins: [
-                'react-hot-loader/babel'
-              ]
-            }
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        include: path.join(__dirname, 'src'),
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: [
+              'react-hot-loader/babel'
+            ]
           }
-        },
-        {
-          test: /\.css$/,
-          use: [
-            'style-loader',
-            'css-loader'
-          ]
-        },
-        {
-          test: /\.(png|svg|jpg|gif)$/,
-          use: [
-            'file-loader'
-          ]
         }
-      ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          'file-loader'
+        ]
+      }
+    ]
   }
 };
