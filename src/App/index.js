@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { hot } from 'react-hot-loader';
 import Header from '../Header';
 import TodoList from '../TodoList';
 
@@ -18,4 +19,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default hot(module)(App);
