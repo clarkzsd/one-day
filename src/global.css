@@ -1,11 +1,19 @@
+body {
+  font-family: Roboto, sans-serif;
+}
+
 button {
   border: none;
   padding: 0;
   background-color: transparent;
 }
 
+h1, h2, h3, h4 {
+  font-weight: 400;
+}
+
 i.material-icons {
-  color: #fff;
+  color: rgb(184, 180, 180);
 }
 
 .inner {
