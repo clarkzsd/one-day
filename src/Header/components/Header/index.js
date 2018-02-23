@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ToolBar from '../ToolBar';
 import ListItemTag from '../ListItemTag';
-import './style.css';
+import './style.scss';
 
 class Header extends Component {
   render () {

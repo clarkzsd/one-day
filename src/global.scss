@@ -1,0 +1,39 @@
+$light-white: #fff;
+$light-blue: #03A9F4;
+$light-gray: #9E9E9E;
+
+body {
+  font-family: Roboto, sans-serif;
+  position: relative;
+}
+
+button {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 400;
+}
+
+i {
+  color: $light-white;
+}
+
+.inner {
+  padding: 0 16px;
+}
+
+// color
+.tag-name, .app-header > footer, .section-title {
+  color: $light-gray;
+}
+
+.floating-action-button > i, .app-header {
+  color: $light-white;
+}
+
+.floating-action-button {
+  background-color: $light-blue;
+}

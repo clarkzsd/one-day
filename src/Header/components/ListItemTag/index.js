@@ -1,22 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const tagStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-end',
-  margin: '0.3em'
-};
+import './style.scss';
 
 const ListItemTag = ({ status }) => (
-  <div style={tagStyle}>
+  <div className='list-item-tag'>
     <h3
       className='task-count'
       style={{
         fontSize: '1.6rem',
         margin: '0'
       }}>24</h3>
-    <span className='tag-name' style={{ color: 'rgb(184, 180, 180)' }}>
+    <span className='tag-name'>
       {status}
     </span>
   </div>
