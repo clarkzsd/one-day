@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SectionTitle from '../SectionTitle';
+import SectionTitle from '../SectionTitle/index';
 
 class TodoList extends Component {
   render () {
