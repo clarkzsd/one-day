@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
-import SectionTitle from '../SectionTitle/index';
+import TodoItem from '../TodoItem';
+
+const list = [
+  {
+    key: 1,
+    title: '完成设计稿',
+    status: 'urgent'
+  },
+  {
+    key: 2,
+    title: '制作 Header',
+    status: 'secondary'
+  }
+];
 
 class TodoList extends Component {
   render () {
     return (
       <div>
-        <SectionTitle name='代做' />
+        {
+          list.map((item) => (
+            <TodoItem {...item} />
+          ))
+        }
       </div>
     );
   }
