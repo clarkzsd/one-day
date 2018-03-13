@@ -1,0 +1,23 @@
+.tool-bar {
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .inner {
+    display: flex;
+    align-items: center;
+  }
+
+  .left-btn {
+    float: left;
+  }
+
+  .right-btn {
+    float: right;
+  }
+
+  .screen-title {
+    margin: 0 auto;
+  }
+}
