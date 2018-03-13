@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
 import TodoItem from '../TodoItem';
-
-const list = [
-  {
-    key: 1,
-    title: '完成设计稿',
-    status: 'urgent'
-  },
-  {
-    key: 2,
-    title: '制作 Header',
-    status: 'secondary'
-  }
-];
+import PropTypes from 'prop-types';
 
 class TodoList extends Component {
   render () {
+    const { list } = this.props;
     return (
       <div>
         {
@@ -27,5 +16,10 @@ class TodoList extends Component {
     );
   }
 }
+
+TodoList.propTypes = {
+  isFinished: PropTypes.boolean,
+  list: PropTypes.array.isRequired
+};
 
 export default TodoList;

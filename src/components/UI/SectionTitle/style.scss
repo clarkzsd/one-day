@@ -4,4 +4,23 @@
   flex-direction: column;
   justify-content: center;
   font-weight: 700;
+
+  .inner {
+    display: flex;
+    align-items: center;
+  }
+
+  .section-title-badge {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0.5rem;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: 50%;
+    background-color: #9E9E9E;
+    color: #fff;
+  }
 }
