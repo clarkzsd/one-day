@@ -6,7 +6,12 @@ import './style.scss';
 class Header extends Component {
   render () {
     return (
-      <section className='app-header'>
+      <section
+        className='app-header'
+        style={{
+          background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.1) 50%)',
+          backgroundColor: '#03A9F4'
+        }}>
         <ToolBar
           left={<i className='material-icons'>menu</i>}
         />
@@ -16,9 +21,9 @@ class Header extends Component {
               我的一天
             </h1>
             <div className='list-item-tags'>
-              <ListItemTag status='紧急' />
-              <ListItemTag status='次要' />
-              <ListItemTag status='主要' />
+              <ListItemTag status='urgent' />
+              <ListItemTag status='primary' />
+              <ListItemTag status='secondary' />
             </div>
           </div>
         </main>
@@ -26,8 +31,7 @@ class Header extends Component {
           <div className='inner'>
             <span className='list-date'>Feb 18, 2018</span>
             <span>
-              <span>50%</span>
-                  已完成 50%
+                已完成 50%
             </span>
           </div>
         </footer>

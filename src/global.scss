@@ -1,6 +1,10 @@
 $light-white: #fff;
 $light-blue: #03A9F4;
 $light-gray: #9E9E9E;
+$urgent-color: #E91E63;
+$primary-color: #FF9800;
+$secondary-color: #3E50B4;
+$finished-color: #009688;
 
 body {
   font-family: Roboto, sans-serif;
@@ -26,7 +30,7 @@ i {
 }
 
 // color
-.tag-name, .app-header > footer, .section-title {
+.section-title {
   color: $light-gray;
 }
 
@@ -36,4 +40,36 @@ i {
 
 .floating-action-button {
   background-color: $light-blue;
+}
+
+.urgent-bg {
+  background-color: $urgent-color;
+}
+
+.primary-bg {
+  background-color: $primary-color;
+}
+
+.secondary-bg {
+  background-color: $secondary-color;
+}
+
+.finished-bg {
+  background-color: $finished-color;
+}
+
+.urgent {
+  color: $urgent-color;
+}
+
+.primary {
+  color: $primary-color;
+}
+
+.secondary {
+  color: $secondary-color;
+}
+
+.finished {
+  color: $finished-color;
 }

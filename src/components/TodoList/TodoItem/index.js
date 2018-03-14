@@ -5,7 +5,7 @@ import './style.scss';
 const TodoItem = ({ status, title }) => (
   <div className='todo-item'>
     <div className='inner'>
-      <div className={`dot ${status}-bg-color`} />
+      <div className={`dot ${status}-bg`} />
       <div className='todo-title'>{title}</div>
     </div>
   </div>
