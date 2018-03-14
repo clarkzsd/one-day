@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
 
-const ToolBar = ({ left, right, title }) => (
+const ToolBar = ({ left, right, title, onLeftPress }) => (
   <header className='tool-bar'>
     <div className='inner'>
-      <button className='left-btn'>
+      <button className='left-btn' onClick={onLeftPress}>
         {left}
       </button>
       <div className='screen-title'>{title}</div>
@@ -17,7 +17,8 @@ const ToolBar = ({ left, right, title }) => (
 ToolBar.propTypes = {
   left: PropTypes.object.isRequired,
   right: PropTypes.object,
-  title: PropTypes.string
+  title: PropTypes.string,
+  onLeftPress: PropTypes.func
 };
 
 export default ToolBar;
