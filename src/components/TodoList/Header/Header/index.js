@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ToolBar from '../ToolBar/index';
+import ToolBar from '../../../UI/ToolBar/index';
 import ListItemTag from '../ListItemTag/index';
 import './style.scss';
 
@@ -7,7 +7,9 @@ class Header extends Component {
   render () {
     return (
       <section className='app-header'>
-        <ToolBar />
+        <ToolBar
+          left={<i className='material-icons'>menu</i>}
+        />
         <main className='list-info'>
           <div className='inner'>
             <h1 className='list-name'>
