@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { AnimatedSwitch } from 'react-router-transition';
 import TodoListScreen from '../screen/TodoListScreen';
 import CreateTodoScreen from '../screen/CreateTodoScreen';
-import './style.scss';
 
 class App extends Component {
   render () {
     return (
       <BrowserRouter>
-        <Route
-          render={({ location }) => (
-            <TransitionGroup>
-              <CSSTransition
-                key={location.key}
-                classNames='fade'
-                timeout={300}
-              >
-                <Switch location={location}>
-                  <Route exact path='/' component={TodoListScreen} />
-                  <Route exact path='/create' component={CreateTodoScreen} />
-                </Switch>
-              </CSSTransition>
-            </TransitionGroup>
-          )}
-        />
+        <AnimatedSwitch
+          atEnter={{ opacity: 0 }}
+          atLeave={{ opacity: 0 }}
+          atActive={{ opacity: 1 }}
+        >
+          <Route exact path='/' component={TodoListScreen} />
+          <Route exact path='/create' component={CreateTodoScreen} />
+        </AnimatedSwitch>
       </BrowserRouter>
     );
   }
