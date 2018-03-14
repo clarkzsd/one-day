@@ -18,7 +18,6 @@ class TodoList extends Component {
 }
 
 TodoList.propTypes = {
-  isFinished: PropTypes.boolean,
   list: PropTypes.array.isRequired
 };
 

@@ -3,6 +3,8 @@ import Header from '../../components/TodoList/Header';
 import SectionTitle from '../../components/UI/SectionTitle';
 import TodoList from '../../components/TodoList';
 import FloatingButton from '../../components/UI/FloatingButton';
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
 const list = [
   {
@@ -26,6 +28,9 @@ const list = [
 ];
 
 class TodoListScreen extends Component {
+  onPressCreate = () => {
+    this.props.history.push('/create');
+  }
   render () {
     return (
       <div className='todolist-screen'>
@@ -35,12 +40,16 @@ class TodoListScreen extends Component {
           <SectionTitle name='代办' />
           <TodoList list={list} />
           <SectionTitle name='已完成' count={5} />
-          <TodoList isFinished={false} list={list} />
+          <TodoList list={list} />
         </main>
-        <FloatingButton icon='add' />
+        <FloatingButton icon='add' onPress={this.onPressCreate} />
       </div>
     );
   }
 }
 
-export default TodoListScreen;
+TodoListScreen.propTypes = {
+  history: PropTypes.object.isRequired
+};
+
+export default withRouter(TodoListScreen);

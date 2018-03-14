@@ -1,0 +1,38 @@
+.create-todo-form {
+  
+  form {
+    width: 100%;
+  }
+
+  select, input {
+    background-color: transparent;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #9E9E9E;
+    height: 56px;
+    color: #9E9E9E;
+  }
+
+  input {
+    color: #fff;
+  }
+
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+
+  .react-datepicker__input-container {
+    width: 100%;
+  }
+
+  .submit-btn {
+    margin-top: 1.5rem;
+    border-radius: 2px;
+    background-color: #03A9F4;
+    width: 100%;
+    height: 56px;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+  }
+}

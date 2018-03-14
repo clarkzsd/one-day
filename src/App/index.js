@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 import TodoListScreen from '../screen/TodoListScreen';
+import CreateTodoScreen from '../screen/CreateTodoScreen';
 
 class App extends Component {
   render () {
@@ -10,6 +11,7 @@ class App extends Component {
         <div>
           <Switch>
             <Route exact path='/' component={TodoListScreen} />
+            <Route exact path='/create' component={CreateTodoScreen} />
           </Switch>
         </div>
       </BrowserRouter>
