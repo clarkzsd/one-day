@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import ToolBar from '../../../UI/ToolBar/index';
-import ListItemTag from '../ListItemTag/index';
+import ToolBar from '../../../UI/ToolBar';
+import ListItemTag from '../ListItemTag';
+import moment from 'moment';
 import './style.scss';
 
 class Header extends Component {
@@ -29,7 +30,7 @@ class Header extends Component {
         </main>
         <footer>
           <div className='inner'>
-            <span className='list-date'>Feb 18, 2018</span>
+            <span className='list-date'>{moment().format('L')}</span>
             <span>
                 已完成 50%
             </span>
