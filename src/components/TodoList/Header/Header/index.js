@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 import ToolBar from '../../../UI/ToolBar';
 import ListItemTag from '../ListItemTag';
-import moment from 'moment';
 import './style.scss';
 
 class Header extends Component {
   render () {
+    const { onToolBarLeftPress } = this.props;
     return (
       <section
         className='app-header'
@@ -15,6 +17,7 @@ class Header extends Component {
         }}>
         <ToolBar
           left={<i className='material-icons'>menu</i>}
+          onLeftPress={onToolBarLeftPress}
         />
         <main className='list-info'>
           <div className='inner'>
@@ -40,5 +43,9 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  onToolBarLeftPress: PropTypes.func.isRequired
+};
 
 export default Header;
