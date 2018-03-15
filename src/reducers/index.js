@@ -12,7 +12,14 @@ const rootReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         todos: {
-          data: action.payload
+          data: action.payload || []
+        }
+      };
+    case types.CREATE_TODO:
+      return {
+        ...state,
+        todos: {
+          data: state.todos.data.concat([action.payload])
         }
       };
     default:

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import './style.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -39,10 +40,13 @@ class CreateTodoForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.title.length === 0) {
-      console.log({ ...this.state, title: '写点什么吧', deadline: moment() });
-    }
-    console.log(this.state);
+    const { title, deadline } = this.state;
+    const todo = {
+      ...this.state,
+      deadline: deadline ? deadline.unix() : moment().unix(),
+      title: title.length > 0 ? title : '写点什么吧'
+    };
+    this.props.handleSubmit(todo);
   }
 
   render () {
@@ -79,5 +83,9 @@ class CreateTodoForm extends Component {
     );
   }
 }
+
+CreateTodoForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired
+};
 
 export default CreateTodoForm;
