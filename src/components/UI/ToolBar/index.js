@@ -9,7 +9,11 @@ const ToolBar = ({ left, right, title, onLeftPress }) => (
         {left}
       </button>
       <div className='screen-title'>{title}</div>
-      { right && <button className='right-btn'>{right}</button> }
+      {
+        right
+          ? <button className='left-btn' onClick={onLeftPress}>{left}</button>
+          : <div className='left-btn' style={{ width: '24px', height: '24px' }} />
+      }
     </div>
   </header>
 );
