@@ -8,14 +8,14 @@ const statusList = {
   urgent: '紧急'
 };
 
-const ListItemTag = ({ status }) => (
+const ListItemTag = ({ status, count }) => (
   <div className='list-item-tag'>
     <h3
       className={`task-count ${status}`}
       style={{
         fontSize: '1.6rem',
         margin: '0'
-      }}>24</h3>
+      }}>{count}</h3>
     <span className='tag-name'>
       {statusList[status]}
     </span>
@@ -23,7 +23,8 @@ const ListItemTag = ({ status }) => (
 );
 
 ListItemTag.propTypes = {
-  status: PropTypes.string
+  status: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired
 };
 
 export default ListItemTag;

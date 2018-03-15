@@ -1,8 +1,17 @@
 .app-header {
+  background-color: #03A9F4;
   min-height: 250px;
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+.layer {
+  position: fixed;
+  min-height: 250px;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .list-info > .inner {
