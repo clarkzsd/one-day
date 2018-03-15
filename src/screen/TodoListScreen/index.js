@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../../components/TodoList/Header';
 import SectionTitle from '../../components/UI/SectionTitle';
 import TodoList from '../../components/TodoList';
 import FloatingButton from '../../components/UI/FloatingButton';
 import Drawer from '../../components/UI/Drawer';
+import { fetchTodos } from '../../actions/todo';
 import './style.scss';
 
 const list = [
@@ -32,6 +34,9 @@ const list = [
 class TodoListScreen extends Component {
   state = {
     isDrawerOpen: false
+  }
+  componentDidMount () {
+    this.props.fetchTodos();
   }
   onPressCreate = () => {
     this.props.history.push('/create');
@@ -69,8 +74,21 @@ class TodoListScreen extends Component {
   }
 }
 
-TodoListScreen.propTypes = {
-  history: PropTypes.object.isRequired
+const mapStateToProps = (state) => {
+  return {
+    todos: state.todos
+  };
 };
 
-export default withRouter(TodoListScreen);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchTodos: () => dispatch(fetchTodos())
+  };
+};
+
+TodoListScreen.propTypes = {
+  history: PropTypes.object.isRequired,
+  fetchTodos: PropTypes.func
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListScreen));
