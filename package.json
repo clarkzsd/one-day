@@ -10,7 +10,6 @@
   "author": "Sytone",
   "license": "ISC",
   "dependencies": {
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.40",
     "moment": "^2.21.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
@@ -25,6 +24,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.40",
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.40",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.40",
     "@babel/preset-env": "^7.0.0-beta.40",
     "@babel/preset-react": "^7.0.0-beta.40",
     "babel-eslint": "^8.2.2",
