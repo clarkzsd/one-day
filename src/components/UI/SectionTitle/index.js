@@ -8,7 +8,7 @@ const SectionTitle = ({ name, count }) => (
       <span className='section-title-content'>
         {name}
       </span>
-      { count && <span className='section-title-badge'>{count}</span> }
+      { (count || count === 0) && <span className='section-title-badge'>{count}</span> }
     </div>
   </div>
 );
