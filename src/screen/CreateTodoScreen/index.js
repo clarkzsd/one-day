@@ -33,7 +33,7 @@ class CreateTodoScreen extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     createTodo: (todo) => dispatch(createTodo(todo)),
-    openNotification: (message) => dispatch(openNotification(openNotification))
+    openNotification: (message) => dispatch(openNotification(message))
   };
 };
 
