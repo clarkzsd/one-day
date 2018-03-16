@@ -111,8 +111,8 @@ const mapDispatchToProps = (dispatch) => {
 
 TodoListScreen.propTypes = {
   history: PropTypes.object.isRequired,
-  fetchTodos: PropTypes.func.isRequired,
-  todos: PropTypes.object.isRequired
+  todos: PropTypes.object.isRequired,
+  fetchTodos: PropTypes.func.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListScreen));

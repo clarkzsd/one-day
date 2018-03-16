@@ -1,0 +1,21 @@
+.snack-bar {
+  display: flex;
+  align-items: center;
+  background-color: #323232;
+  height: 48px;
+  width: 100%;
+  font-size: 14px;
+  position: fixed;
+  bottom: -100%;
+  transition: 1s;
+  color: #fff;
+
+  .inner {
+    padding: 0 48px;
+  }
+}
+
+.snack-bar-popup {
+  transition: 1s;
+  bottom: 0;
+}

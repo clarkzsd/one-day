@@ -6,20 +6,24 @@ import { AnimatedSwitch } from 'react-router-transition';
 import store from '../store';
 import TodoListScreen from '../screen/TodoListScreen';
 import CreateTodoScreen from '../screen/CreateTodoScreen';
+import SnackBar from '../components/UI/SnackBar';
 
 class App extends Component {
   render () {
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <AnimatedSwitch
-            atEnter={{ opacity: 0 }}
-            atLeave={{ opacity: 0 }}
-            atActive={{ opacity: 1 }}
-          >
-            <Route exact path='/' component={TodoListScreen} />
-            <Route exact path='/create' component={CreateTodoScreen} />
-          </AnimatedSwitch>
+          <div>
+            <AnimatedSwitch
+              atEnter={{ opacity: 0 }}
+              atLeave={{ opacity: 0 }}
+              atActive={{ opacity: 1 }}
+            >
+              <Route exact path='/' component={TodoListScreen} />
+              <Route exact path='/create' component={CreateTodoScreen} />
+            </AnimatedSwitch>
+            <SnackBar />
+          </div>
         </BrowserRouter>
       </Provider>
     );
