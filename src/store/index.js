@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import throttle from 'lodash.throttle';
 import { saveState } from '../utils/localStorage';
 import rootReducer from '../reducers';
 
@@ -11,8 +12,8 @@ const store = createStore(
   )
 );
 
-store.subscribe(() => {
+store.subscribe(throttle(() => {
   saveState(store.getState().todos.data);
-});
+}, 1000));
 
 export default store;
