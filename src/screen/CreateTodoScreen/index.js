@@ -15,6 +15,7 @@ class CreateTodoScreen extends Component {
   handleFormSubmit = (todo) => {
     this.props.createTodo(todo);
     this.props.openNotification('添加成功');
+    this.props.history.push('/');
   }
   render () {
     return (
