@@ -44,7 +44,7 @@ class CreateTodoForm extends Component {
     const { title, deadline } = this.state;
     const todo = {
       ...this.state,
-      key: shortid.generate(),
+      id: shortid.generate(),
       deadline: deadline ? deadline.unix() : moment().unix(),
       title: title.length > 0 ? title : '写点什么吧'
     };
