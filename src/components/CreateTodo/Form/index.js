@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import shortid from 'shortid';
 import './style.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -43,6 +44,7 @@ class CreateTodoForm extends Component {
     const { title, deadline } = this.state;
     const todo = {
       ...this.state,
+      key: shortid.generate(),
       deadline: deadline ? deadline.unix() : moment().unix(),
       title: title.length > 0 ? title : '写点什么吧'
     };
