@@ -15,38 +15,6 @@ class TodoListScreen extends Component {
   state = {
     isDrawerOpen: false
   }
-  componentDidMount () {
-    // const todos = [
-    //   {
-    //     key: 1,
-    //     title: '洗碗',
-    //     status: 'primary',
-    //     deadline: 1521114266
-    //   }, {
-    //     key: 2,
-    //     title: '整理主屏',
-    //     status: 'primary',
-    //     deadline: 1521514266
-    //   }, {
-    //     key: 3,
-    //     title: '制作 Header',
-    //     status: 'secondary',
-    //     deadline: 1524114266
-    //   }, {
-    //     key: 4,
-    //     title: '写《三块广告牌》的影评',
-    //     status: 'urgent',
-    //     deadline: 1511514266
-    //   }, {
-    //     key: 5,
-    //     title: '看《湮灭》',
-    //     status: 'finished',
-    //     deadline: 1511512266
-    //   }
-    // ];
-    // localStorage.setItem('todos', JSON.stringify(todos));
-    this.props.fetchTodos();
-  }
   onPressCreate = () => {
     this.props.history.push('/create');
   }
@@ -111,8 +79,7 @@ const mapDispatchToProps = (dispatch) => {
 
 TodoListScreen.propTypes = {
   history: PropTypes.object.isRequired,
-  todos: PropTypes.object.isRequired,
-  fetchTodos: PropTypes.func.isRequired
+  todos: PropTypes.object.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListScreen));

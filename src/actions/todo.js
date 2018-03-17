@@ -6,11 +6,3 @@ export const createTodo = (todo) => {
     payload: todo
   };
 };
-
-export const fetchTodos = () => {
-  const todos = JSON.parse(localStorage.getItem('todos'));
-  return {
-    type: types.FETCH_TODOS,
-    payload: todos
-  };
-};

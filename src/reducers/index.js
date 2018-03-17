@@ -1,8 +1,9 @@
 import * as types from '../actions/types';
+import { loadTodoList } from '../utils/localStorage';
 
 const INITIAL_STATE = {
   todos: {
-    data: []
+    data: loadTodoList()
   },
   snackBar: {
     isTriggered: false,
@@ -12,13 +13,6 @@ const INITIAL_STATE = {
 
 const rootReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case types.FETCH_TODOS:
-      return {
-        ...state,
-        todos: {
-          data: action.payload || []
-        }
-      };
     case types.CREATE_TODO:
       return {
         ...state,

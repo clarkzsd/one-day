@@ -1,5 +1,4 @@
 export const CREATE_TODO = 'CREATE_TODO';
-export const FETCH_TODOS = 'FETCH_TODOS';
 
 export const OPEN_NOTIFICATION = 'OPEN_NOTIFICATION';
 export const TRIGGER_SNACKBAR = 'TRIGGER_SNACKBAR';
