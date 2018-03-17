@@ -24,8 +24,40 @@
     margin-right: 1rem;
   }
 
+  .todo-right {
+    display: flex;
+    flex-direction: column;
+    min-width: 90px;
+  }
+
   .todo-deadline {
     color: #9E9E9E;
     font-size: 12px;
+  }
+}
+
+.todo-item:hover {
+  .todo-options {
+    visibility: visible ;
+  }
+}
+
+.todo-options {
+  visibility: hidden;
+
+  & > button {
+    margin-right: 6px;
+  }
+
+  i.done {
+    color: #009688;
+  }
+
+  i.edit {
+    color: #03A9F4;
+  }
+
+  i.delete {
+    color: #E91E63;
   }
 }
