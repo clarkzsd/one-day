@@ -16,6 +16,9 @@ const INITIAL_STATE = {
       status: '',
       deadline: null
     }
+  },
+  drawer: {
+    isOpen: false
   }
 };
 
@@ -80,6 +83,20 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         modal: {
           isTriggered: false,
           editingTodo: {}
+        }
+      };
+    case types.OPEN_DRAWER:
+      return {
+        ...state,
+        drawer: {
+          isOpen: true
+        }
+      };
+    case types.CLOSE_DRAWER:
+      return {
+        ...state,
+        drawer: {
+          isOpen: false
         }
       };
     default:

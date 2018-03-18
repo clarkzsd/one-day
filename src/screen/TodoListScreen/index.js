@@ -6,27 +6,14 @@ import Header from '../../components/TodoList/Header';
 import SectionTitle from '../../components/UI/SectionTitle';
 import TodoList from '../../components/TodoList';
 import FloatingButton from '../../components/UI/FloatingButton';
-import Drawer from '../../components/UI/Drawer';
 import { fetchTodos } from '../../actions/todo';
+import { openDrawer } from '../../actions/ui';
 import TodoListEmpty from '../../components/TodoList/TodoListEmpty';
 import './style.scss';
 
 class TodoListScreen extends Component {
-  state = {
-    isDrawerOpen: false
-  }
   onPressCreate = () => {
     this.props.history.push('/create');
-  }
-  onToggleDrawer = () => {
-    this.setState({
-      isDrawerOpen: true
-    });
-  }
-  handleDrawerClose = () => {
-    this.setState({
-      isDrawerOpen: false
-    });
   }
   renderTodoList = (list) => {
     return list && list.length ? <TodoList list={list} /> : <TodoListEmpty />;
@@ -42,7 +29,7 @@ class TodoListScreen extends Component {
     return (
       <div className='todolist-screen'>
         <Header
-          onToolBarLeftPress={this.onToggleDrawer}
+          onToolBarLeftPress={this.props.openDrawer}
           urgentCount={todoList.filter((item) => item.status === 'urgent').length}
           primaryCount={todoList.filter((item) => item.status === 'primary').length}
           secondaryCount={todoList.filter((item) => item.status === 'secondary').length}
@@ -55,10 +42,6 @@ class TodoListScreen extends Component {
           <SectionTitle name='已完成' count={finished.length} />
           {this.renderFinishedList(finished)}
         </main>
-        <Drawer
-          isOpen={this.state.isDrawerOpen}
-          onClosePress={this.handleDrawerClose}
-        />
         <FloatingButton icon='add' onPress={this.onPressCreate} />
       </div>
     );
@@ -73,11 +56,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchTodos: () => dispatch(fetchTodos())
+    fetchTodos: () => dispatch(fetchTodos()),
+    openDrawer: () => dispatch(openDrawer())
   };
 };
 
 TodoListScreen.propTypes = {
+  openDrawer: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   todos: PropTypes.object.isRequired
 };

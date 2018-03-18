@@ -34,3 +34,15 @@ export const closeModal = () => {
     type: types.CLOSE_MODAL
   };
 };
+
+export const openDrawer = () => {
+  return {
+    type: types.OPEN_DRAWER
+  };
+};
+
+export const closeDrawer = () => {
+  return {
+    type: types.CLOSE_DRAWER
+  };
+};
