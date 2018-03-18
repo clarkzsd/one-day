@@ -4,8 +4,9 @@ import { AnimatedSwitch } from 'react-router-transition';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { closeDrawer } from '../actions/ui';
-import TodoListScreen from '../screen/TodoListScreen';
-import CreateTodoScreen from '../screen/CreateTodoScreen';
+import TodoListScreen from '../screens/TodoListScreen';
+import CreateTodoScreen from '../screens/CreateTodoScreen';
+import ArchieveListScreen from '../screens/ArchieveListScreen';
 import SnackBar from '../components/UI/SnackBar';
 import Drawer from '../components/UI/Drawer';
 import EditTodoModal from '../components/EditTodoModal';
@@ -21,6 +22,7 @@ class AppRoute extends Component {
             atActive={{ opacity: 1 }}
           >
             <Route exact path='/' component={TodoListScreen} />
+            <Route exact path='/archieve' component={ArchieveListScreen} />
             <Route exact path='/create' component={CreateTodoScreen} />
           </AnimatedSwitch>
           <SnackBar />
