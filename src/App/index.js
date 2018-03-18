@@ -7,6 +7,7 @@ import store from '../store';
 import TodoListScreen from '../screen/TodoListScreen';
 import CreateTodoScreen from '../screen/CreateTodoScreen';
 import SnackBar from '../components/UI/SnackBar';
+import EditTodoModal from '../components/EditTodoModal';
 
 class App extends Component {
   render () {
@@ -23,6 +24,7 @@ class App extends Component {
               <Route exact path='/create' component={CreateTodoScreen} />
             </AnimatedSwitch>
             <SnackBar />
+            <EditTodoModal />
           </div>
         </BrowserRouter>
       </Provider>

@@ -21,3 +21,16 @@ export const unTriggerSnackBar = () => {
     type: types.UNTRIGGER_SNACKBAR
   };
 };
+
+export const triggerModal = (todo) => {
+  return {
+    type: types.TRIGGER_MODAL,
+    payload: todo
+  };
+};
+
+export const closeModal = () => {
+  return {
+    type: types.CLOSE_MODAL
+  };
+};

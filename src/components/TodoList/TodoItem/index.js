@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { editTodo, deleteTodo } from '../../../actions/todo';
-import { openNotification } from '../../../actions/ui';
+import { openNotification, triggerModal } from '../../../actions/ui';
 import './style.scss';
 
 moment.locale('zh-cn');
@@ -15,7 +15,8 @@ const TodoItem = ({
   deadline,
   editTodo,
   deleteTodo,
-  openNotification
+  openNotification,
+  triggerModal
 }) => {
   const onDonePress = () => {
     const newTodo = {
@@ -33,7 +34,12 @@ const TodoItem = ({
   };
 
   const onEditPress = () => {
-    console.log('edit');
+    triggerModal({
+      id,
+      status,
+      title,
+      deadline
+    });
   };
 
   const onDeletePress = () => {
@@ -80,7 +86,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     editTodo: (todo) => dispatch(editTodo(todo)),
     deleteTodo: (id) => dispatch(deleteTodo(id)),
-    openNotification: (message) => dispatch(openNotification(message))
+    openNotification: (message) => dispatch(openNotification(message)),
+    triggerModal: (todo) => dispatch(triggerModal(todo))
   };
 };
 
@@ -91,7 +98,8 @@ TodoItem.propTypes = {
   deadline: PropTypes.number.isRequired,
   editTodo: PropTypes.func.isRequired,
   deleteTodo: PropTypes.func.isRequired,
-  openNotification: PropTypes.func.isRequired
+  openNotification: PropTypes.func.isRequired,
+  triggerModal: PropTypes.func.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(TodoItem);

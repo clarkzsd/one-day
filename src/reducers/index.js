@@ -8,6 +8,14 @@ const INITIAL_STATE = {
   snackBar: {
     isTriggered: false,
     message: ''
+  },
+  modal: {
+    isTriggered: false,
+    editingTodo: {
+      title: '',
+      status: '',
+      deadline: null
+    }
   }
 };
 
@@ -56,6 +64,22 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         snackBar: {
           isTriggered: false,
           message: ''
+        }
+      };
+    case types.TRIGGER_MODAL:
+      return {
+        ...state,
+        modal: {
+          isTriggered: true,
+          editingTodo: action.payload
+        }
+      };
+    case types.CLOSE_MODAL:
+      return {
+        ...state,
+        modal: {
+          isTriggered: false,
+          editingTodo: {}
         }
       };
     default:
