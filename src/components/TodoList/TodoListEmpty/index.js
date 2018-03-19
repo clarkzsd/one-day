@@ -1,12 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './style.scss';
 
-const TodoListEmpty = () => (
+const TodoListEmpty = ({ placeHolder }) => (
   <div className='empty-indictor'>
     <div className='inner'>
-      找点事儿做吧~
+      {placeHolder}
     </div>
   </div>
 );
+
+TodoListEmpty.propTypes = {
+  placeHolder: PropTypes.string.isRequired
+};
 
 export default TodoListEmpty;

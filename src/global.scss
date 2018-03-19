@@ -51,6 +51,16 @@ select, input {
   padding: 0 16px;
 }
 
+.form-field {
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+
+  .react-datepicker__input-container {
+    width: 100%;
+  }
+}
+
 // color
 .section-title {
   color: $light-gray;

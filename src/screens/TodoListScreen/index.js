@@ -16,7 +16,7 @@ class TodoListScreen extends Component {
     this.props.history.push('/create');
   }
   renderTodoList = (list) => {
-    return list && list.length ? <TodoList list={list} /> : <TodoListEmpty />;
+    return list && list.length ? <TodoList list={list} /> : <TodoListEmpty placeHolder='找点事儿做吧' />;
   }
   renderFinishedList = (list) => {
     return list && list.length ? <TodoList list={list} /> : '';

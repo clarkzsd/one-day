@@ -23,7 +23,8 @@ const TodoItem = ({
       id,
       status: 'finished',
       title,
-      deadline
+      deadline,
+      finishedAt: moment().unix()
     };
     try {
       editTodo(newTodo);
