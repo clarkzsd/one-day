@@ -1,11 +1,10 @@
-.modal-wrapper {
+.modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
   box-sizing: border-box;
-  width: 300px;
   width: 300px;
   background: #fff;
   box-shadow: 0 40px 77px rgba(0, 0, 0, 0.22), 0 27px 24px rgba(0, 0, 0, 0.2);
@@ -48,7 +47,7 @@
 }
 
 .modal-mask {
-  z-index: 1000;
+  z-index: 999;
   position: fixed;
   top: 0;
   left: 0;
