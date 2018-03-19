@@ -46,7 +46,8 @@ class CreateTodoForm extends Component {
       ...this.state,
       id: shortid.generate(),
       deadline: deadline ? deadline.unix() : moment().unix(),
-      title: title.length > 0 ? title : '写点什么吧'
+      title: title.length > 0 ? title : '写点什么吧',
+      finishedAt: null
     };
     this.props.handleSubmit(todo);
   }
