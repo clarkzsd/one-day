@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { AnimatedSwitch } from 'react-router-transition';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { closeDrawer } from '../actions/ui';
@@ -16,15 +15,11 @@ class AppRoute extends Component {
     return (
       <BrowserRouter>
         <div>
-          <AnimatedSwitch
-            atEnter={{ opacity: 0 }}
-            atLeave={{ opacity: 0 }}
-            atActive={{ opacity: 1 }}
-          >
+          <Switch>
             <Route exact path='/' component={TodoListScreen} />
             <Route exact path='/archieve' component={ArchieveListScreen} />
             <Route exact path='/create' component={CreateTodoScreen} />
-          </AnimatedSwitch>
+          </Switch>
           <SnackBar />
           { this.props.isModalDriggered && <EditTodoModal /> }
           <Drawer
