@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ToolBar from '../ToolBar';
 import './style.scss';
@@ -15,6 +16,22 @@ const Drawer = ({ isOpen, onClosePress }) => (
           <i className='material-icons'>person</i>
           <span className='menu-item-content'>登录</span>
         </div>
+      </div>
+      <div className='menu-item'>
+        <Link to='/' onClick={onClosePress}>
+          <div className='inner'>
+            <i className='material-icons'>wb_sunny</i>
+            <span className='menu-item-content'>我的一天</span>
+          </div>
+        </Link>
+      </div>
+      <div className='menu-item'>
+        <Link to='/archieve' onClick={onClosePress}>
+          <div className='inner'>
+            <i className='material-icons'>event_available</i>
+            <span className='menu-item-content'>完成事项</span>
+          </div>
+        </Link>
       </div>
     </div>
     <footer>

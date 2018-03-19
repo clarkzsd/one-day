@@ -14,7 +14,8 @@ const INITIAL_STATE = {
     editingTodo: {
       title: '',
       status: '',
-      deadline: null
+      deadline: null,
+      finishedAt: null
     }
   },
   drawer: {
