@@ -26,7 +26,7 @@ class AppRoute extends Component {
             <Route exact path='/create' component={CreateTodoScreen} />
           </AnimatedSwitch>
           <SnackBar />
-          <EditTodoModal />
+          { this.props.isModalDriggered && <EditTodoModal /> }
           <Drawer
             isOpen={this.props.isDrawerOpen}
             onClosePress={this.props.closeDrawer}
@@ -37,9 +37,10 @@ class AppRoute extends Component {
   }
 }
 
-const mapStateToProps = ({ drawer }) => {
+const mapStateToProps = ({ drawer, modal }) => {
   return {
-    isDrawerOpen: drawer.isOpen
+    isDrawerOpen: drawer.isOpen,
+    isModalDriggered: modal.isTriggered
   };
 };
 
@@ -51,6 +52,7 @@ const mapDispatchToProps = (dispatch) => {
 
 AppRoute.propTypes = {
   isDrawerOpen: PropTypes.bool.isRequired,
+  isModalDriggered: PropTypes.bool.isRequired,
   closeDrawer: PropTypes.func.isRequired
 };
 
