@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = ({ todos }) => {
   return {
-    archievedList: todos.data.filter((item) => item.status === 'finished' && moment(item.finishedAt).diff(moment().unix(), 'hours') >= 24)
+    archievedList: todos.data.filter((item) => item.status === 'finished' && moment().diff(moment.unix(item.finishedAt), 'days') > 0)
   };
 };
 
