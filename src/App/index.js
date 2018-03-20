@@ -5,6 +5,11 @@ import store from '../store';
 import AppRoute from '../AppRoute';
 
 class App extends Component {
+  componentDidMount () {
+    const body = document.querySelector('body');
+    const spinner = document.getElementById('loading-spinner');
+    body.removeChild(spinner);
+  }
   render () {
     return (
       <Provider store={store}>

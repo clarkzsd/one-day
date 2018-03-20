@@ -105,3 +105,63 @@ select, input {
 .finished {
   color: $finished-color;
 }
+
+// loading-spinner
+#loading-spinner > div {
+  position: relative;
+  box-sizing: border-box;
+}
+
+#loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  display: block;
+  font-size: 0;
+  color: $light-blue;
+  width: 72px;
+  height: 72px;
+}
+
+#loading-spinner > div {
+  display: inline-block;
+  float: none;
+  background-color: currentColor;
+  border: 0 solid currentColor;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 72px;
+  height: 72px;
+  border-radius: 100%;
+  opacity: .5;
+  -webkit-animation: loading-spinner 2s infinite ease-in-out;
+    -moz-animation: loading-spinner 2s infinite ease-in-out;
+      -o-animation: loading-spinner 2s infinite ease-in-out;
+          animation: loading-spinner 2s infinite ease-in-out;
+}
+
+#loading-spinner > div:last-child {
+  -webkit-animation-delay: -1.0s;
+     -moz-animation-delay: -1.0s;
+       -o-animation-delay: -1.0s;
+          animation-delay: -1.0s;
+}
+
+@keyframes loading-spinner {
+  0%,
+  100% {
+      -webkit-transform: scale(0);
+         -moz-transform: scale(0);
+           -o-transform: scale(0);
+              transform: scale(0);
+  }
+  50% {
+      -webkit-transform: scale(1);
+         -moz-transform: scale(1);
+           -o-transform: scale(1);
+              transform: scale(1);
+  }
+}
