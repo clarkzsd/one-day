@@ -1,11 +1,34 @@
-# Oneday
+# OneDay
 
-One Day is GTD application in Material Design.
+OneDay is a Todo application in Material Design.
 
-一个 Material Design 风格的 GTD Todo 应用。
+一个 Material Design 风格的待办事项应用。
 
-##技术栈
+**地址：** http://oneday.sytone.me
 
-reactjs、redux、redux-thunk、
+## 技术栈
+
+React.js、Redux、redux-thunk
 
 ## 预览
+
+![](https://i.loli.net/2018/03/27/5aba25810e467.jpg)
+
+## Development
+
+```bash
+# clone repo
+git clone https://github.com/clarkzsd/one-day
+
+# serve with hot reload at localhost:8080
+yarn start
+
+# build for production
+yarn build
+```
+
+## TODO
+
+- [ ] 帐号体系（云同步）
+- [ ] PWA features
+- [ ] 番茄钟
