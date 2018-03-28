@@ -20,6 +20,9 @@ React.js、Redux、redux-thunk
 # clone repo
 git clone https://github.com/clarkzsd/one-day
 
+# install dependencies
+yarn install
+
 # serve with hot reload at localhost:8080
 yarn start
 
