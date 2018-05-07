@@ -35,3 +35,4 @@ yarn build
 - [ ] 帐号体系（云同步）
 - [ ] PWA features
 - [ ] 番茄钟
+- [ ] Sliding Items
