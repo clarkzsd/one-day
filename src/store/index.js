@@ -16,4 +16,9 @@ store.subscribe(throttle(() => {
   saveState(store.getState().todos.data);
 }, 1000));
 
-export default store;
+const createStoreWithInitialState = (initialState) => createStore(rootReducer, initialState);
+
+export {
+  store,
+  createStoreWithInitialState
+};

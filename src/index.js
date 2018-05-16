@@ -5,7 +5,7 @@ import './normalize.css';
 import './global.scss';
 
 const render = Component => {
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <Component />,
     document.getElementById('app')
   );
