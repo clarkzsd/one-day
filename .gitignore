@@ -7,3 +7,5 @@ yarn-error.log*
 
 public/*.js
 public/*.js.map
+public/*.hot-update.json
+public/*.css
