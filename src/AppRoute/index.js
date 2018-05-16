@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { closeDrawer } from '../actions/ui';
 import TodoListScreen from '../screens/TodoListScreen';
 import CreateTodoScreen from '../screens/CreateTodoScreen';
-import ArchieveListScreen from '../screens/ArchieveListScreen';
+import ArchiveListScreen from '../screens/ArchiveListScreen';
 import SnackBar from '../components/UI/SnackBar';
 import Drawer from '../components/UI/Drawer';
 import EditTodoModal from '../components/EditTodoModal';
@@ -17,11 +17,11 @@ class AppRoute extends Component {
         <div>
           <Switch>
             <Route exact path='/' component={TodoListScreen} />
-            <Route exact path='/archieve' component={ArchieveListScreen} />
+            <Route exact path='/archive' component={ArchiveListScreen} />
             <Route exact path='/create' component={CreateTodoScreen} />
           </Switch>
           <SnackBar />
-          { this.props.isModalDriggered && <EditTodoModal /> }
+          { this.props.isModalTriggered && <EditTodoModal /> }
           <Drawer
             isOpen={this.props.isDrawerOpen}
             onClosePress={this.props.closeDrawer}
@@ -35,7 +35,7 @@ class AppRoute extends Component {
 const mapStateToProps = ({ drawer, modal }) => {
   return {
     isDrawerOpen: drawer.isOpen,
-    isModalDriggered: modal.isTriggered
+    isModalTriggered: modal.isTriggered
   };
 };
 
@@ -47,7 +47,7 @@ const mapDispatchToProps = (dispatch) => {
 
 AppRoute.propTypes = {
   isDrawerOpen: PropTypes.bool.isRequired,
-  isModalDriggered: PropTypes.bool.isRequired,
+  isModalTriggered: PropTypes.bool.isRequired,
   closeDrawer: PropTypes.func.isRequired
 };
 

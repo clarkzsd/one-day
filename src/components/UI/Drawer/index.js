@@ -43,7 +43,7 @@ class Drawer extends Component {
             </Link>
           </div>
           <div className='menu-item'>
-            <Link to='/archieve' onClick={onClosePress}>
+            <Link to='/archive' onClick={onClosePress}>
               <div className='inner'>
                 <i className='material-icons'>event_available</i>
                 <span className='menu-item-content'>完成事项</span>

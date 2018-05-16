@@ -7,11 +7,11 @@ import ToolBar from '../../components/UI/ToolBar';
 import TodoList from '../../components/TodoList';
 import TodoListEmpty from '../../components/TodoList/TodoListEmpty';
 
-class ArchieveListScreen extends Component {
+class ArchiveListScreen extends Component {
   render () {
-    const { openDrawer, archievedList } = this.props;
+    const { openDrawer, archivedList } = this.props;
     return (
-      <div className='archieve-list-screen'>
+      <div className='archive-list-screen'>
         <ToolBar
           left={<i className='material-icons'>menu</i>}
           onLeftPress={openDrawer}
@@ -30,7 +30,7 @@ class ArchieveListScreen extends Component {
         <div className='top' style={{ height: '56px' }} />
         <main>
           {
-            archievedList && archievedList.length ? <TodoList list={archievedList} /> : <TodoListEmpty placeHolder='过去已完成的任务事项会出现在这里~' />
+            archivedList && archivedList.length ? <TodoList list={archivedList} /> : <TodoListEmpty placeHolder='过去已完成的任务事项会出现在这里~' />
           }
         </main>
       </div>
@@ -46,13 +46,13 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = ({ todos }) => {
   return {
-    archievedList: todos.data.filter((item) => item.status === 'finished' && moment().diff(moment.unix(item.finishedAt), 'days') > 0)
+    archivedList: todos.data.filter((item) => item.status === 'finished' && moment().diff(moment.unix(item.finishedAt), 'days') > 0)
   };
 };
 
-ArchieveListScreen.propTypes = {
+ArchiveListScreen.propTypes = {
   openDrawer: PropTypes.func.isRequired,
-  archievedList: PropTypes.array.isRequired
+  archivedList: PropTypes.array.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArchieveListScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ArchiveListScreen);
