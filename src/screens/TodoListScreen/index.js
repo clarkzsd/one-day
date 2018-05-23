@@ -10,6 +10,7 @@ import FloatingButton from '../../components/UI/FloatingButton';
 import { fetchTodos } from '../../actions/todo';
 import { openDrawer } from '../../actions/ui';
 import TodoListEmpty from '../../components/TodoList/TodoListEmpty';
+import EditTodoModal from '../../components/EditTodoModal';
 import './style.scss';
 
 class TodoListScreen extends Component {
@@ -42,17 +43,19 @@ class TodoListScreen extends Component {
           {this.renderFinishedList(finishedList)}
         </main>
         <FloatingButton icon='add' onPress={this.onPressCreate} />
+        { this.props.isModalTriggered && <EditTodoModal /> }
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ todos }) => {
+const mapStateToProps = ({ todos, modal }) => {
   const todayList = todos.data.filter((item) => item.finishedAt === null || moment().diff(moment.unix(item.finishedAt), 'days') <= 0);
   return {
     todoListLength: todayList.length,
     finishedList: todayList.filter((item) => item.status === 'finished'),
-    unfinishedList: todayList.filter((item) => item.status !== 'finished')
+    unfinishedList: todayList.filter((item) => item.status !== 'finished'),
+    isModalTriggered: modal.isTriggered
   };
 };
 
@@ -68,7 +71,8 @@ TodoListScreen.propTypes = {
   history: PropTypes.object.isRequired,
   todoListLength: PropTypes.number.isRequired,
   finishedList: PropTypes.array.isRequired,
-  unfinishedList: PropTypes.array.isRequired
+  unfinishedList: PropTypes.array.isRequired,
+  isModalTriggered: PropTypes.bool.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListScreen));

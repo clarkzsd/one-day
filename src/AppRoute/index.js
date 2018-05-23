@@ -8,7 +8,6 @@ import CreateTodoScreen from '../screens/CreateTodoScreen';
 import ArchiveListScreen from '../screens/ArchiveListScreen';
 import SnackBar from '../components/UI/SnackBar';
 import Drawer from '../components/UI/Drawer';
-import EditTodoModal from '../components/EditTodoModal';
 
 class AppRoute extends Component {
   render () {
@@ -21,7 +20,6 @@ class AppRoute extends Component {
             <Route exact path='/create' component={CreateTodoScreen} />
           </Switch>
           <SnackBar />
-          { this.props.isModalTriggered && <EditTodoModal /> }
           <Drawer
             isOpen={this.props.isDrawerOpen}
             onClosePress={this.props.closeDrawer}
@@ -32,10 +30,9 @@ class AppRoute extends Component {
   }
 }
 
-const mapStateToProps = ({ drawer, modal }) => {
+const mapStateToProps = ({ drawer }) => {
   return {
-    isDrawerOpen: drawer.isOpen,
-    isModalTriggered: modal.isTriggered
+    isDrawerOpen: drawer.isOpen
   };
 };
 
@@ -47,7 +44,6 @@ const mapDispatchToProps = (dispatch) => {
 
 AppRoute.propTypes = {
   isDrawerOpen: PropTypes.bool.isRequired,
-  isModalTriggered: PropTypes.bool.isRequired,
   closeDrawer: PropTypes.func.isRequired
 };
 
