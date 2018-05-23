@@ -16,7 +16,9 @@ store.subscribe(throttle(() => {
   saveState(store.getState().todos.data);
 }, 1000));
 
-const createStoreWithInitialState = (initialState) => createStore(rootReducer, initialState);
+const createStoreWithInitialState = (initialState) => createStore(rootReducer, initialState, composeWithDevTools(
+  applyMiddleware(thunk)
+));
 
 export {
   store,

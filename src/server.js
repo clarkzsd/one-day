@@ -3,10 +3,12 @@ import serve from 'koa-static';
 import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import TodoListScreen from './screens/TodoListScreen';
+import SnackBar from './components/UI/SnackBar';
+import Drawer from './components/UI/Drawer';
 
 const app = new Koa();
 
@@ -17,7 +19,13 @@ app.use(async ctx => {
   const jsx = (
     <Provider store={store}>
       <StaticRouter context={context} location={ctx.req.url}>
-        <TodoListScreen />
+        <div>
+          <Switch>
+            <TodoListScreen />
+          </Switch>
+          <SnackBar />
+          <Drawer />
+        </div>
       </StaticRouter>
     </Provider>
   );
