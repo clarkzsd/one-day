@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import store from '../../../store';
-import { openNotification } from '../../../actions/ui';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import store from '../../../store';
+import { openNotification, closeDrawer } from '../../../actions/ui';
 import ToolBar from '../ToolBar';
 import AboutModal from '../../AboutModal';
 import './style.scss';
@@ -12,20 +13,20 @@ class Drawer extends Component {
     isModalOpen: false
   }
   handleModalOpen = () => {
-    this.props.onClosePress();
+    this.props.closeDrawer();
     this.setState({isModalOpen: true});
   }
   handleLoginPress = () => {
-    this.props.onClosePress();
+    this.props.closeDrawer();
     store.dispatch(openNotification('仍在开发中😂'));
   }
   render () {
-    const { isOpen, onClosePress } = this.props;
+    const { isDrawerOpen, closeDrawer } = this.props;
     return (
-      <div className={`drawer${isOpen ? ' slide-in' : ''}`}>
+      <div className={`drawer${isDrawerOpen ? ' slide-in' : ''}`}>
         <ToolBar
           left={<i className='material-icons' style={{ color: '#03A9F4' }}>close</i>}
-          onLeftPress={onClosePress}
+          onLeftPress={closeDrawer}
         />
         <div className='drawer-content'>
           <div className='menu-item' onClick={this.handleLoginPress}>
@@ -35,7 +36,7 @@ class Drawer extends Component {
             </div>
           </div>
           <div className='menu-item'>
-            <Link to='/' onClick={onClosePress}>
+            <Link to='/' onClick={closeDrawer}>
               <div className='inner'>
                 <i className='material-icons'>wb_sunny</i>
                 <span className='menu-item-content'>我的一天</span>
@@ -43,7 +44,7 @@ class Drawer extends Component {
             </Link>
           </div>
           <div className='menu-item'>
-            <Link to='/archive' onClick={onClosePress}>
+            <Link to='/archive' onClick={closeDrawer}>
               <div className='inner'>
                 <i className='material-icons'>event_available</i>
                 <span className='menu-item-content'>完成事项</span>
@@ -63,9 +64,21 @@ class Drawer extends Component {
   }
 }
 
-Drawer.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClosePress: PropTypes.func.isRequired
+const mapStateToProps = ({ drawer }) => {
+  return {
+    isDrawerOpen: drawer.isOpen
+  };
 };
 
-export default Drawer;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    closeDrawer: () => dispatch(closeDrawer())
+  };
+};
+
+Drawer.propTypes = {
+  isDrawerOpen: PropTypes.bool.isRequired,
+  closeDrawer: PropTypes.func.isRequired
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Drawer);
