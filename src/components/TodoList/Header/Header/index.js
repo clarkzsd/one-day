@@ -9,8 +9,7 @@ class Header extends Component {
   render () {
     const { onToolBarLeftPress, urgentCount, primaryCount, secondaryCount, percentage } = this.props;
     return (
-      <section
-        className='app-header'>
+      <section className='app-header'>
         <ToolBar
           left={<i className='material-icons'>menu</i>}
           onLeftPress={onToolBarLeftPress}
