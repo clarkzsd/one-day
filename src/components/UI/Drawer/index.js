@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import store from '../../../store';
-import { openNotification, closeDrawer } from '../../../actions/ui';
+import { closeDrawer } from '../../../actions/ui';
 import ToolBar from '../ToolBar';
 import AboutModal from '../../AboutModal';
 import './style.scss';
@@ -18,7 +17,7 @@ class Drawer extends Component {
   }
   handleLoginPress = () => {
     this.props.closeDrawer();
-    store.dispatch(openNotification('仍在开发中😂'));
+    this.props.openSnackBar('还在开发中。。。');
   }
   render () {
     const { isDrawerOpen, closeDrawer } = this.props;
@@ -78,7 +77,8 @@ const mapDispatchToProps = (dispatch) => {
 
 Drawer.propTypes = {
   isDrawerOpen: PropTypes.bool.isRequired,
-  closeDrawer: PropTypes.func.isRequired
+  closeDrawer: PropTypes.func.isRequired,
+  openSnackBar: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Drawer);
