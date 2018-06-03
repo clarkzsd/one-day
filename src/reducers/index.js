@@ -6,7 +6,7 @@ const INITIAL_STATE = {
     data: loadTodoList()
   },
   snackBar: {
-    isTriggered: false,
+    isOpen: false,
     message: ''
   },
   modal: {
@@ -54,19 +54,19 @@ const rootReducer = (state = INITIAL_STATE, action) => {
           data: state.todos.data.filter(item => item.id !== action.payload)
         }
       };
-    case types.TRIGGER_SNACKBAR:
+    case types.OPEN_SNACKBAR:
       return {
         ...state,
         snackBar: {
-          isTriggered: true,
+          isOpen: true,
           message: action.payload
         }
       };
-    case types.UNTRIGGER_SNACKBAR:
+    case types.CLOSE_SNACKBAR:
       return {
         ...state,
         snackBar: {
-          isTriggered: false,
+          isOpen: false,
           message: ''
         }
       };
