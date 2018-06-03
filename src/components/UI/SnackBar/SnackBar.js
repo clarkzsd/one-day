@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { CSSTransitionGroup } from 'react-transition-group';
 import './style.scss';
 
 class SnackBar extends Component {
@@ -13,7 +14,7 @@ class SnackBar extends Component {
   }
 
   static defaultProps = {
-    duration: 1.5
+    duration: 3.5
   }
 
   componentDidMount () {
@@ -62,13 +63,24 @@ class SnackBar extends Component {
   render () {
     const { message, isOpen, action, onButtonClick } = this.props;
     return (
-      isOpen &&
-        <div className='snack-bar snack-bar-popup' onMouseEnter={this.clearCloseTimer} onMouseLeave={this.startCloseTimer}>
-          <div className='inner'>
-            <span className='snack-bar-message'>{message}</span>
-            { action && <button onClick={onButtonClick} />}
+      <CSSTransitionGroup
+        transitionName='snackbar'
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={500}>
+        {
+          isOpen &&
+          <div
+            key='snackbar'
+            className='snack-bar'
+            onMouseEnter={this.clearCloseTimer}
+            onMouseLeave={this.startCloseTimer}>
+            <div className='inner'>
+              <span className='snack-bar-message'>{message}</span>
+              { action && <button onClick={onButtonClick} />}
+            </div>
           </div>
-        </div>
+        }
+      </CSSTransitionGroup>
     );
   }
 }
