@@ -36,6 +36,15 @@ class TodoListScreen extends Component {
     this.props.deleteTodo(id);
   }
 
+  handleSubmitEditingForm = (todo) => {
+    this.props.editTodo(todo);
+    this.setState({isModalOpen: false});
+  }
+
+  handleCancelEditing = () => {
+    this.setState({isModalOpen: false});
+  }
+
   handleEditItem = (todo) => {
     this.setState({isModalOpen: true, editingTodo: todo});
   }
@@ -77,7 +86,13 @@ class TodoListScreen extends Component {
           {this.renderFinishedList(finishedList)}
         </main>
         <FloatingButton icon='add' onPress={this.onPressCreate} />
-        { this.state.isModalOpen && <EditTodoModal editingTodo={this.state.editingTodo} /> }
+        { this.state.isModalOpen &&
+          <EditTodoModal
+            onCancel={this.handleCancelEditing}
+            onSubmitForm={this.handleSubmitEditingForm}
+            editingTodo={this.state.editingTodo}
+          />
+        }
       </div>
     );
   }
