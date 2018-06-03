@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import { connect } from 'react-redux';
-import { closeModal, openNotification } from '../../actions/ui';
-import { editTodo } from '../../actions/todo';
 import Modal from '../UI/Modal';
 
 const statusList = [
@@ -34,13 +31,7 @@ class EditTodoModal extends Component {
       deadline: deadline ? deadline.unix() : moment().unix(),
       title: title.length > 0 ? title : '写点什么吧'
     };
-    try {
-      this.props.editTodo(todo);
-      this.props.openNotification('修改成功👌');
-      this.props.closeModal();
-    } catch (err) {
-      this.props.openNotification('发生错误😥');
-    }
+    this.props.onSubmitForm(todo);
   }
   onFieldChange = (e) => {
     const { name, value } = e.target;
@@ -55,12 +46,12 @@ class EditTodoModal extends Component {
   }
   render () {
     const { status, title, deadline } = this.state;
-    const { closeModal } = this.props;
+    const { onCancel } = this.props;
     return (
       <Modal
         title='编辑事项'
         footer={[
-          <button type='button' key='cancel' onClick={closeModal}>取消</button>,
+          <button type='button' key='cancel' onClick={onCancel}>取消</button>,
           <button type='button' key='confirm' onClick={this.handleUpdateTodo}>提交</button>
         ]}
       >
@@ -98,26 +89,10 @@ class EditTodoModal extends Component {
   }
 }
 
-const mapStateToProps = ({ modal }) => {
-  return {
-    isTriggered: modal.isTriggered,
-    editingTodo: modal.editingTodo
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    closeModal: () => dispatch(closeModal()),
-    editTodo: (todo) => dispatch(editTodo(todo)),
-    openNotification: (message) => dispatch(openNotification(message))
-  };
-};
-
 EditTodoModal.propTypes = {
   editingTodo: PropTypes.object.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  editTodo: PropTypes.func.isRequired,
-  openNotification: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired,
+  onSubmitForm: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTodoModal);
+export default EditTodoModal;
