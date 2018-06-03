@@ -4,12 +4,18 @@ import PropTypes from 'prop-types';
 
 class TodoList extends Component {
   render () {
-    const { list } = this.props;
+    const { todos, onDeleteItem, onFinishItem, onEditItem } = this.props;
     return (
       <div>
         {
-          list.map((item) => (
-            <TodoItem {...item} key={item.id} />
+          todos.map((todo) => (
+            <TodoItem
+              data={todo}
+              onFinish={onFinishItem}
+              onEdit={onEditItem}
+              onDelete={onDeleteItem}
+              key={todo.id}
+            />
           ))
         }
       </div>
@@ -18,7 +24,10 @@ class TodoList extends Component {
 }
 
 TodoList.propTypes = {
-  list: PropTypes.array.isRequired
+  todos: PropTypes.array.isRequired,
+  onDeleteItem: PropTypes.func.isRequired,
+  onFinishItem: PropTypes.func.isRequired,
+  onEditItem: PropTypes.func.isRequired
 };
 
 export default TodoList;
