@@ -7,22 +7,56 @@ import Header from '../../components/TodoList/Header';
 import SectionTitle from '../../components/UI/SectionTitle';
 import TodoList from '../../components/TodoList';
 import FloatingButton from '../../components/UI/FloatingButton';
-import { fetchTodos } from '../../actions/todo';
+import { fetchTodos, deleteTodo, editTodo } from '../../actions/todo';
 import { openDrawer } from '../../actions/ui';
 import TodoListEmpty from '../../components/TodoList/TodoListEmpty';
 import EditTodoModal from '../../components/EditTodoModal';
 import './style.scss';
 
 class TodoListScreen extends Component {
+  state = {
+    isModalOpen: false,
+    editingTodo: {
+      title: '',
+      status: '',
+      deadline: null,
+      finishedAt: null
+    }
+  }
+
   onPressCreate = () => {
     this.props.history.push('/create');
   }
+
+  handleFinishItem = (todo) => {
+    this.props.editTodo(todo);
+  }
+
+  handleDeleteItem = (id) => {
+    this.props.deleteTodo(id);
+  }
+
+  handleEditItem = (todo) => {
+    this.setState({isModalOpen: true, editingTodo: todo});
+  }
+
+  renderTaskList = (todos) => {
+    return <TodoList
+      todos={todos}
+      onDeleteItem={this.handleDeleteItem}
+      onFinishItem={this.handleFinishItem}
+      onEditItem={this.handleEditItem}
+    />;
+  }
+
   renderTodoList = (list) => {
-    return list && list.length ? <TodoList list={list} /> : <TodoListEmpty placeHolder='戳右下角按钮，开启你的一天~' />;
+    return list && list.length ? this.renderTaskList(list) : <TodoListEmpty placeHolder='戳右下角按钮，开启你的一天~' />;
   }
+
   renderFinishedList = (list) => {
-    return list && list.length ? <TodoList list={list} /> : '';
+    return list && list.length ? this.renderTaskList(list) : '';
   }
+
   render () {
     const { todoListLength, finishedList, unfinishedList } = this.props;
     const percentage = todoListLength > 0 ? Math.round((finishedList.length / todoListLength) * 100) : 100;
@@ -43,7 +77,7 @@ class TodoListScreen extends Component {
           {this.renderFinishedList(finishedList)}
         </main>
         <FloatingButton icon='add' onPress={this.onPressCreate} />
-        { this.props.isModalTriggered && <EditTodoModal /> }
+        { this.state.isModalOpen && <EditTodoModal editingTodo={this.state.editingTodo} /> }
       </div>
     );
   }
@@ -54,15 +88,16 @@ const mapStateToProps = ({ todos, modal }) => {
   return {
     todoListLength: todayList.length,
     finishedList: todayList.filter((item) => item.status === 'finished'),
-    unfinishedList: todayList.filter((item) => item.status !== 'finished'),
-    isModalTriggered: modal.isTriggered
+    unfinishedList: todayList.filter((item) => item.status !== 'finished')
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchTodos: () => dispatch(fetchTodos()),
-    openDrawer: () => dispatch(openDrawer())
+    openDrawer: () => dispatch(openDrawer()),
+    deleteTodo: (id) => dispatch(deleteTodo(id)),
+    editTodo: (todo) => dispatch(editTodo(todo))
   };
 };
 
@@ -72,7 +107,8 @@ TodoListScreen.propTypes = {
   todoListLength: PropTypes.number.isRequired,
   finishedList: PropTypes.array.isRequired,
   unfinishedList: PropTypes.array.isRequired,
-  isModalTriggered: PropTypes.bool.isRequired
+  deleteTodo: PropTypes.func.isRequired,
+  editTodo: PropTypes.func.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListScreen));
