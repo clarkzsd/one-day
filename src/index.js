@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './normalize.css';
-import './global.scss';
+import './styles/normalize.css';
+import './styles/global.scss';
 
 const render = Component => {
   ReactDOM.render(

@@ -1,5 +1,5 @@
 .todo-item {
-  color: #263238;
+  color: $blue-gray-900;
   font-weight: 700;
   height: 56px;
   display: flex;
@@ -31,7 +31,7 @@
   }
 
   .todo-deadline {
-    color: #9E9E9E;
+    color: $gray-500;
     font-size: 12px;
   }
 }
@@ -43,14 +43,14 @@
   }
 
   i.done {
-    color: #009688;
+    color: $teal-500;
   }
 
   i.edit {
-    color: #03A9F4;
+    color: $light-blue;
   }
 
   i.delete {
-    color: #E91E63;
+    color: $pink-500;
   }
 }

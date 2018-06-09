@@ -1,10 +1,4 @@
-$light-white: #fff;
-$light-blue: #03A9F4;
-$light-gray: #9E9E9E;
-$urgent-color: #E91E63;
-$primary-color: #FF9800;
-$secondary-color: #3E50B4;
-$finished-color: #009688;
+@import './variables.scss';
 
 body {
   font-family: Roboto, sans-serif;
@@ -23,6 +17,7 @@ h1, h2, h3, h4 {
 }
 
 a, a:link, a:visited, a:hover, a:focus, a:active{
+  color: inherit;
   text-decoration: none;
 }
 
@@ -62,7 +57,7 @@ select, input {
 
 // color
 .section-title {
-  color: $light-gray;
+  color: $gray-500;
 }
 
 .floating-action-button > i, .app-header {
@@ -74,7 +69,7 @@ select, input {
 }
 
 .urgent-bg {
-  background-color: $urgent-color;
+  background-color: $pink-500;
 }
 
 .primary-bg {
@@ -86,11 +81,11 @@ select, input {
 }
 
 .finished-bg {
-  background-color: $finished-color;
+  background-color: $teal-500;
 }
 
 .urgent {
-  color: $urgent-color;
+  color: $pink-500;
 }
 
 .primary {
@@ -102,5 +97,5 @@ select, input {
 }
 
 .finished {
-  color: $finished-color;
+  color: $teal-500;
 }
