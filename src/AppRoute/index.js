@@ -6,6 +6,7 @@ import moment from 'moment';
 import { closeSnackBar, openSnackBar } from '../actions/ui';
 import TodoListScreen from '../screens/TodoListScreen';
 import CreateTodoScreen from '../screens/CreateTodoScreen';
+import LoginScreen from '../screens/LoginScreen';
 import ArchiveListScreen from '../screens/ArchiveListScreen';
 import SnackBar from '../components/UI/SnackBar';
 import Drawer from '../components/UI/Drawer';
@@ -26,6 +27,7 @@ class AppRoute extends Component {
         <div>
           <Switch>
             <Route exact path='/' component={TodoListScreen} />
+            <Route exact path='/login' component={LoginScreen} />
             <Route exact path='/archive' component={ArchiveListScreen} />
             <Route exact path='/create' component={CreateTodoScreen} />
           </Switch>

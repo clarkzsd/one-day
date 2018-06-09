@@ -28,11 +28,13 @@ class Drawer extends Component {
           onLeftPress={closeDrawer}
         />
         <div className='drawer-content'>
-          <div className='menu-item' onClick={this.handleLoginPress}>
-            <div className='inner'>
-              <i className='material-icons'>person</i>
-              <span className='menu-item-content'>登录</span>
-            </div>
+          <div className='menu-item'>
+            <Link to='/login' onClick={closeDrawer}>
+              <div className='inner'>
+                <i className='material-icons'>person</i>
+                <span className='menu-item-content'>登录</span>
+              </div>
+            </Link>
           </div>
           <div className='menu-item'>
             <Link to='/' onClick={closeDrawer}>
