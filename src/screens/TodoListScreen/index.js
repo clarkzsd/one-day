@@ -7,10 +7,11 @@ import Header from '../../components/TodoList/Header';
 import SectionTitle from '../../components/UI/SectionTitle';
 import TodoList from '../../components/TodoList';
 import FloatingButton from '../../components/UI/FloatingButton';
-import { fetchTodos, deleteTodo, editTodo } from '../../actions/todo';
-import { openDrawer } from '../../actions/ui';
+import { fetchTodayTodos, deleteTodo, editTodo } from './action';
+import { openDrawer } from '../../components/action';
 import TodoListEmpty from '../../components/TodoList/TodoListEmpty';
 import EditTodoModal from '../../components/EditTodoModal';
+
 import './style.scss';
 
 class TodoListScreen extends Component {
@@ -22,6 +23,10 @@ class TodoListScreen extends Component {
       deadline: null,
       finishedAt: null
     }
+  }
+
+  componentDidMount () {
+    this.props.fetchTodayTodos();
   }
 
   onPressCreate = () => {
@@ -98,8 +103,8 @@ class TodoListScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ todos, modal }) => {
-  const todayList = todos.data.filter((item) => item.finishedAt === null || moment().diff(moment.unix(item.finishedAt), 'days') <= 0);
+const mapStateToProps = ({ home }) => {
+  const todayList = home.todos.data.filter((item) => item.finishedAt === null || moment().diff(moment.unix(item.finishedAt), 'days') <= 0);
   return {
     todoListLength: todayList.length,
     finishedList: todayList.filter((item) => item.status === 'finished'),
@@ -109,7 +114,7 @@ const mapStateToProps = ({ todos, modal }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchTodos: () => dispatch(fetchTodos()),
+    fetchTodayTodos: () => dispatch(fetchTodayTodos()),
     openDrawer: () => dispatch(openDrawer()),
     deleteTodo: (id) => dispatch(deleteTodo(id)),
     editTodo: (todo) => dispatch(editTodo(todo))
@@ -123,7 +128,8 @@ TodoListScreen.propTypes = {
   finishedList: PropTypes.array.isRequired,
   unfinishedList: PropTypes.array.isRequired,
   deleteTodo: PropTypes.func.isRequired,
-  editTodo: PropTypes.func.isRequired
+  editTodo: PropTypes.func.isRequired,
+  fetchTodayTodos: PropTypes.func.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListScreen));

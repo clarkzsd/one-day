@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { closeSnackBar, openSnackBar } from '../actions/ui';
+import { closeSnackBar, openSnackBar } from '../components/action';
 import TodoListScreen from '../screens/TodoListScreen';
 import CreateTodoScreen from '../screens/CreateTodoScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -52,10 +52,10 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const mapStateToProps = ({ snackBar }) => {
+const mapStateToProps = ({ ui }) => {
   return {
-    isSnackBarOpen: snackBar.isOpen,
-    snackBarMessage: snackBar.message
+    isSnackBarOpen: ui.snackBar.isOpen,
+    snackBarMessage: ui.snackBar.message
   };
 };
 

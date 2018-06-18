@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { closeDrawer } from '../../../actions/ui';
+import { closeDrawer } from '../../../components/action';
 import ToolBar from '../ToolBar';
 import AboutModal from '../../AboutModal';
 import './style.scss';
@@ -65,9 +65,9 @@ class Drawer extends Component {
   }
 }
 
-const mapStateToProps = ({ drawer }) => {
+const mapStateToProps = ({ ui }) => {
   return {
-    isDrawerOpen: drawer.isOpen
+    isDrawerOpen: ui.drawer.isOpen
   };
 };
 

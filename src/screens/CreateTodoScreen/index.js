@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ToolBar from '../../components/UI/ToolBar';
 import CreateTodoForm from '../../components/CreateTodo/Form';
-import { createTodo } from '../../actions/todo';
-import { openSnackBar } from '../../actions/ui';
+import { createTodo } from '../TodoListScreen/action';
+import { openSnackBar } from '../../components/action';
 import './style.scss';
 
 class CreateTodoScreen extends Component {

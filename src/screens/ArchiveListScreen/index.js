@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { openDrawer } from '../../actions/ui';
+import { openDrawer } from '../../components/action';
 import ToolBar from '../../components/UI/ToolBar';
 import TodoList from '../../components/TodoList';
 import TodoListEmpty from '../../components/TodoList/TodoListEmpty';
@@ -44,9 +44,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const mapStateToProps = ({ todos }) => {
+const mapStateToProps = ({ home }) => {
   return {
-    archivedList: todos.data.filter((item) => item.status === 'finished' && moment().diff(moment.unix(item.finishedAt), 'days') > 0)
+    archivedList: home.todos.data.filter((item) => item.status === 'finished' && moment().diff(moment.unix(item.finishedAt), 'days') > 0)
   };
 };
 
