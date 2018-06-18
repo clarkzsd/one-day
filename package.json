@@ -10,6 +10,8 @@
   "author": "Sytone",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
+    "firebase": "^5.0.4",
     "lodash.throttle": "^4.1.1",
     "moment": "^2.21.0",
     "prop-types": "^15.6.0",
