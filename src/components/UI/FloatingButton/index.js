@@ -7,14 +7,14 @@ class FloatingButton extends Component {
     const { icon, onPress } = this.props;
     return (
       <div className='floating-action-button' onClick={onPress}>
-        <i className='material-icons'>{icon}</i>
+        {icon}
       </div>
     );
   }
 }
 
 FloatingButton.propTypes = {
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.object.isRequired,
   onPress: PropTypes.func
 };
 
