@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import ToolBar from '../../../UI/ToolBar';
+import ToolBar from '../../../../../../components/UI/ToolBar';
 import ListItemTag from '../ListItemTag';
 import './style.scss';
 

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { closeDrawer } from '../../../components/action';
-import ToolBar from '../ToolBar';
-import AboutModal from '../../AboutModal';
+import { closeDrawer } from '../action';
+import ToolBar from '../UI/ToolBar';
+import AboutModal from '../AboutModal';
 import './style.scss';
 
 class Drawer extends Component {
@@ -19,6 +19,22 @@ class Drawer extends Component {
     this.props.closeDrawer();
     this.props.openSnackBar('还在开发中。。。');
   }
+
+  renderProjectList = () => {
+    const { projectsData, closeDrawer } = this.props;
+    const { data } = projectsData;
+    return data.map((item) =>
+      <div className='menu-item' key={item.id}>
+        <Link to={`/projects/${item.id}`} onClick={closeDrawer}>
+          <div className='inner'>
+            <i className='material-icons'>event_available</i>
+            <span className='menu-item-content'>{item.name}</span>
+          </div>
+        </Link>
+      </div>
+    );
+  }
+
   render () {
     const { isDrawerOpen, closeDrawer } = this.props;
     return (
@@ -28,13 +44,20 @@ class Drawer extends Component {
           onLeftPress={closeDrawer}
         />
         <div className='drawer-content'>
-          <div className='menu-item'>
+          <div className='menu-item drawer__user-info'>
             <Link to='/login' onClick={closeDrawer}>
               <div className='inner'>
                 <i className='material-icons'>person</i>
                 <span className='menu-item-content'>登录</span>
               </div>
             </Link>
+          </div>
+          <div className='drawer__subtitle'>
+            <div className='inner'>
+              <span>
+                Overview
+              </span>
+            </div>
           </div>
           <div className='menu-item'>
             <Link to='/' onClick={closeDrawer}>
@@ -52,6 +75,14 @@ class Drawer extends Component {
               </div>
             </Link>
           </div>
+          <div className='drawer__subtitle'>
+            <div className='inner'>
+              <span>
+                Projects
+              </span>
+            </div>
+          </div>
+          {this.renderProjectList()}
         </div>
         <footer>
           <div className='inner'>
@@ -65,9 +96,10 @@ class Drawer extends Component {
   }
 }
 
-const mapStateToProps = ({ ui }) => {
+const mapStateToProps = ({ ui, home }) => {
   return {
-    isDrawerOpen: ui.drawer.isOpen
+    isDrawerOpen: ui.drawer.isOpen,
+    projectsData: home.projects
   };
 };
 
@@ -80,7 +112,8 @@ const mapDispatchToProps = (dispatch) => {
 Drawer.propTypes = {
   isDrawerOpen: PropTypes.bool.isRequired,
   closeDrawer: PropTypes.func.isRequired,
-  openSnackBar: PropTypes.func.isRequired
+  openSnackBar: PropTypes.func.isRequired,
+  projectsData: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Drawer);

@@ -3,14 +3,20 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Header from '../../components/TodoList/Header';
+import Header from './components/TodoList/Header';
 import SectionTitle from '../../components/UI/SectionTitle';
-import TodoList from '../../components/TodoList';
+import TodoList from './components/TodoList';
 import FloatingButton from '../../components/UI/FloatingButton';
-import { fetchTodayTodos, deleteTodo, editTodo } from './action';
-import { openDrawer } from '../../components/action';
-import TodoListEmpty from '../../components/TodoList/TodoListEmpty';
+import TodoListEmpty from './components/TodoList/TodoListEmpty';
 import EditTodoModal from '../../components/EditTodoModal';
+
+import {
+  fetchTodayTodos,
+  fetchProjects,
+  deleteTodo,
+  editTodo
+} from './action';
+import { openDrawer } from '../../components/action';
 
 import './style.scss';
 
@@ -26,7 +32,11 @@ class TodoListScreen extends Component {
   }
 
   componentDidMount () {
-    this.props.fetchTodayTodos();
+    const { fetchTodayTodos, fetchProjects } = this.props;
+    Promise.all([
+      fetchTodayTodos(),
+      fetchProjects()
+    ]);
   }
 
   onPressCreate = () => {
@@ -90,7 +100,7 @@ class TodoListScreen extends Component {
           <SectionTitle name='已完成' count={finishedList.length} />
           {this.renderFinishedList(finishedList)}
         </main>
-        <FloatingButton icon='add' onPress={this.onPressCreate} />
+        <FloatingButton icon={<i className='material-icons'>add</i>} onPress={this.onPressCreate} />
         { this.state.isModalOpen &&
           <EditTodoModal
             onCancel={this.handleCancelEditing}
@@ -115,6 +125,7 @@ const mapStateToProps = ({ home }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchTodayTodos: () => dispatch(fetchTodayTodos()),
+    fetchProjects: () => dispatch(fetchProjects()),
     openDrawer: () => dispatch(openDrawer()),
     deleteTodo: (id) => dispatch(deleteTodo(id)),
     editTodo: (todo) => dispatch(editTodo(todo))
@@ -129,7 +140,8 @@ TodoListScreen.propTypes = {
   unfinishedList: PropTypes.array.isRequired,
   deleteTodo: PropTypes.func.isRequired,
   editTodo: PropTypes.func.isRequired,
-  fetchTodayTodos: PropTypes.func.isRequired
+  fetchTodayTodos: PropTypes.func.isRequired,
+  fetchProjects: PropTypes.func.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListScreen));

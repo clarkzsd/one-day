@@ -29,6 +29,22 @@ const homeReducer = (state = INITIAL_STATE, action) => {
           loading: false
         }
       };
+    case types.FETCH_PROJECTS_REQUEST:
+      return {
+        ...state,
+        projects: {
+          data: [],
+          loading: true
+        }
+      };
+    case types.FETCH_PROJECTS_SUCCEEDED:
+      return {
+        ...state,
+        projects: {
+          data: action.payload,
+          loading: false
+        }
+      };
     default:
       return state;
   }
