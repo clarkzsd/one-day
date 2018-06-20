@@ -1,0 +1,46 @@
+.header {
+
+  &__toolBar {
+    height: 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .inner {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__leftBtn {
+    float: left;
+    z-index: 996;
+  }
+
+  &__rightBtn {
+    float: right;
+  }
+
+  &__title {
+    margin: 0 auto;
+    overflow: hidden;
+
+    span {
+      color: $gray-500;
+      font-weight: 700;
+    }
+  }
+
+  &__largeTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 46px;
+    font-size: 34px;
+    font-weight: 700;
+  }
+
+  .material-icons {
+    color: $light-blue;
+  }
+}
