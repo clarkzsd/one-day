@@ -35,7 +35,6 @@ module.exports = {
             options: {
               resources: [
                 'src/styles/variables.scss',
-                'src/styles/global.scss',
                 'src/styles/mixins.scss'
               ]
             }
