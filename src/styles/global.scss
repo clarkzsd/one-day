@@ -16,6 +16,11 @@ h1, h2, h3, h4 {
   margin: 0;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
 a, a:link, a:visited, a:hover, a:focus, a:active{
   color: inherit;
   text-decoration: none;
@@ -57,7 +62,7 @@ select, input {
 
 // color
 .section-title {
-  color: $gray-500;
+  color: $grey-500;
 }
 
 .floating-action-button > i, .app-header {
