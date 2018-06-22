@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { openDrawer } from '../../components/action';
 import ToolBar from '../../components/UI/ToolBar';
-import TodoList from '../../components/TodoList';
-import TodoListEmpty from '../../components/TodoList/TodoListEmpty';
+import TodoList from '../TodoListScreen/components/TodoList';
+import TodoListEmpty from '../TodoListScreen/components/TodoList/TodoListEmpty';
 
 class ArchiveListScreen extends Component {
   render () {
