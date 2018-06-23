@@ -1,0 +1,95 @@
+.taskItem-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  .taskItem__actionBtnList {
+    position: fixed;
+    right: 16px;
+
+    li {
+      display: inline-block;
+      &:first-child {
+        margin-right: 8px;
+      }
+    }
+
+    button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: $grey-500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.taskItem__editBtn {
+        background-color: $primary-color;
+      }
+      &.taskItem__deleteBtn {
+        background-color: $pink-500;
+      }
+    }
+  }
+}
+
+.taskItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 6px;
+  width: 100%;
+  padding: 16px;
+  box-shadow: 3px 2px 24px rgba(0, 0, 0, 0.1);
+  margin-bottom: 9px;
+  transition: transform 0.3s ease-out;
+
+  &--swiped {
+    transform: translateX(-104px);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  &__detail {
+    margin: 8px 0px 8px 24px;
+    color: $grey-500;
+  }
+  &__dateInfo  {
+    margin-left: 24px;
+
+    .material-icons {
+      color: $grey-500;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-right: 6px;
+    }
+  }
+  &__checkCircle {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid $grey-500;
+  }
+  &__statusDot {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 1rem;
+    &--urgent {
+      background-color: $pink-500;
+    }
+    &--primary {
+      background-color: $primary-color
+    }
+    &--secondary {
+      background-color: $secondary-color
+    }
+  }
+}
