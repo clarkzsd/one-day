@@ -1,4 +1,10 @@
-.todolist-screen {
+.todayContainer {
   position: relative;
   overflow: hidden;
+  height: 100vh;
+
+  &__todoList--empty {
+    font-size: 1.2rem;
+    color: $grey-500;
+  }
 }

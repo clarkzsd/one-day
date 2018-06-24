@@ -1,4 +1,5 @@
 import * as types from './action';
+import * as appActionTypes from '../App/action';
 
 const INITIAL_STATE = {
   todos: {
@@ -42,6 +43,15 @@ const homeReducer = (state = INITIAL_STATE, action) => {
         ...state,
         projects: {
           data: action.payload,
+          loading: false
+        }
+      };
+    case appActionTypes.DELETE_TASK_SUCCEEDED:
+      const updates = state.todos.data.filter(item => item.id !== action.id);
+      return updates.length === state.todos.data ? state : {
+        ...state,
+        todos: {
+          data: updates,
           loading: false
         }
       };

@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { connect } from 'react-redux';
-import Header from './components/TodoList/Header';
-import SectionTitle from '../../components/UI/SectionTitle';
-import TodoList from './components/TodoList';
 import FloatingButton from '../../components/UI/FloatingButton';
-import TodoListEmpty from './components/TodoList/TodoListEmpty';
 import EditTodoModal from '../../components/EditTodoModal';
+import TaskItem from '../../components/TaskItem';
+import Header from '../../components/UI/Header';
+import Tabs from '../../components/UI/Tabs';
 
-import {
-  fetchTodayTodos,
-  fetchProjects,
-  deleteTodo,
-  editTodo
-} from './action';
+import { fetchTodayTodos } from './action';
+import { fetchProjects, deleteTask, finishTask } from '../App/action';
 import { openDrawer } from '../../components/action';
 
+import { todayTaskStatusList } from '../../base/constants/task';
+
 import './style.scss';
+
+const TabsPanel = Tabs.TabsPanel;
 
 class TodoListScreen extends Component {
   state = {
@@ -43,16 +41,21 @@ class TodoListScreen extends Component {
     this.props.history.push('/create');
   }
 
-  handleFinishItem = (todo) => {
-    this.props.editTodo(todo);
+  handleFinishTask = (id) => {
+    // TODO
+    this.props.finishTask(id);
   }
 
-  handleDeleteItem = (id) => {
-    this.props.deleteTodo(id);
+  handleDeleteTask = (id) => {
+    this.props.deleteTask(id);
+  }
+
+  handleEditTask = (todo) => {
+    // this.setState({isModalOpen: true, editingTodo: todo});
   }
 
   handleSubmitEditingForm = (todo) => {
-    this.props.editTodo(todo);
+    // this.props.editTodo(todo);
     this.setState({isModalOpen: false});
   }
 
@@ -60,46 +63,49 @@ class TodoListScreen extends Component {
     this.setState({isModalOpen: false});
   }
 
-  handleEditItem = (todo) => {
-    this.setState({isModalOpen: true, editingTodo: todo});
-  }
-
-  renderTaskList = (todos) => {
-    return <TodoList
-      todos={todos}
-      onDeleteItem={this.handleDeleteItem}
-      onFinishItem={this.handleFinishItem}
-      onEditItem={this.handleEditItem}
-    />;
-  }
-
-  renderTodoList = (list) => {
-    return list && list.length ? this.renderTaskList(list) : <TodoListEmpty placeHolder='戳右下角按钮，开启你的一天~' />;
-  }
-
-  renderFinishedList = (list) => {
-    return list && list.length ? this.renderTaskList(list) : '';
+  renderTasksList = (statusKey) => {
+    const tasks = this.props.todayTodosData.data;
+    const selectedTasks = tasks.filter(task => task.status === statusKey);
+    if (statusKey === 1 && selectedTasks.length === 0) {
+      return <span className='todayContainer__todoList--empty'>
+        戳右下角按钮，开启你的一天~
+      </span>;
+    }
+    return selectedTasks.map((task) => {
+      return <TaskItem
+        data={task}
+        key={task.id}
+        onEdit={this.handleEditTask}
+        onFinish={this.handleFinishTask}
+        onDelete={this.handleDeleteTask}
+      />;
+    });
   }
 
   render () {
-    const { todoListLength, finishedList, unfinishedList } = this.props;
-    const percentage = todoListLength > 0 ? Math.round((finishedList.length / todoListLength) * 100) : 100;
+    const { openDrawer } = this.props;
     return (
-      <div className='todolist-screen'>
+      <div className='todayContainer'>
         <Header
-          onToolBarLeftPress={this.props.openDrawer}
-          urgentCount={unfinishedList.filter((item) => item.status === 'urgent').length}
-          primaryCount={unfinishedList.filter((item) => item.status === 'primary').length}
-          secondaryCount={unfinishedList.filter((item) => item.status === 'secondary').length}
-          percentage={percentage}
+          largeTitle='Today'
+          leftIcon={<i className='material-icons'>menu</i>}
+          onLeftPress={openDrawer}
         />
-        <div className='top' style={{ height: '250px' }} />
-        <main className='todolist-content'>
-          <SectionTitle name='代办' />
-          {this.renderTodoList(unfinishedList)}
-          <SectionTitle name='已完成' count={finishedList.length} />
-          {this.renderFinishedList(finishedList)}
-        </main>
+        <Tabs defaultActiveKey='0'>
+          {
+            todayTaskStatusList.map((item, index) => {
+              const { value } = item;
+              return (
+                <TabsPanel
+                  key={index}
+                  panelKey={`${index}`}
+                  tabTitle={value.toUpperCase()}>
+                  {this.renderTasksList(item.key)}
+                </TabsPanel>
+              );
+            })
+          }
+        </Tabs>
         <FloatingButton icon={<i className='material-icons'>add</i>} onPress={this.onPressCreate} />
         { this.state.isModalOpen &&
           <EditTodoModal
@@ -114,11 +120,8 @@ class TodoListScreen extends Component {
 }
 
 const mapStateToProps = ({ home }) => {
-  const todayList = home.todos.data.filter((item) => item.finishedAt === null || moment().diff(moment.unix(item.finishedAt), 'days') <= 0);
   return {
-    todoListLength: todayList.length,
-    finishedList: todayList.filter((item) => item.status === 'finished'),
-    unfinishedList: todayList.filter((item) => item.status !== 'finished')
+    todayTodosData: home.todos
   };
 };
 
@@ -127,21 +130,19 @@ const mapDispatchToProps = (dispatch) => {
     fetchTodayTodos: () => dispatch(fetchTodayTodos()),
     fetchProjects: () => dispatch(fetchProjects()),
     openDrawer: () => dispatch(openDrawer()),
-    deleteTodo: (id) => dispatch(deleteTodo(id)),
-    editTodo: (todo) => dispatch(editTodo(todo))
+    deleteTask: (id) => dispatch(deleteTask(id)),
+    finishTask: (id) => dispatch(finishTask(id))
   };
 };
 
 TodoListScreen.propTypes = {
+  todayTodosData: PropTypes.object.isRequired,
   openDrawer: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  todoListLength: PropTypes.number.isRequired,
-  finishedList: PropTypes.array.isRequired,
-  unfinishedList: PropTypes.array.isRequired,
-  deleteTodo: PropTypes.func.isRequired,
-  editTodo: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
   fetchTodayTodos: PropTypes.func.isRequired,
-  fetchProjects: PropTypes.func.isRequired
+  fetchProjects: PropTypes.func.isRequired,
+  finishTask: PropTypes.func.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListScreen));
