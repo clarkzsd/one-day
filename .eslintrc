@@ -3,7 +3,8 @@
   "parser": "babel-eslint",
   "rules": {
     "semi": ["error", "always"],
-    "standard/no-callback-literal": 0
+    "standard/no-callback-literal": 0,
+    "camelcase": 0
   },
   "env": {
     "browser": true
