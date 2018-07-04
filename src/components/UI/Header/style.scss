@@ -14,10 +14,11 @@
 
   &__leftBtn {
     float: left;
-    z-index: 996;
   }
 
   &__rightBtn {
+    cursor: pointer;
+    color: $light-blue;
     float: right;
   }
 

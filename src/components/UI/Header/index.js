@@ -8,7 +8,7 @@ const Header = ({
   onLeftPress,
   onRightPress,
   titleStyle,
-  rightIcon,
+  rightContent,
   largeTitle
 }) => (
   <header className='header'>
@@ -26,8 +26,8 @@ const Header = ({
           </span>
         </div>
         {
-          rightIcon
-            ? <button className='header__rightBtn' onClick={onRightPress}>{rightIcon}</button>
+          rightContent
+            ? <button className='header__rightBtn' onClick={onRightPress}>{rightContent}</button>
             : <div className='header__rightBtn' style={{ width: '24px', height: '24px' }} />
         }
       </div>
@@ -42,7 +42,10 @@ const Header = ({
 
 Header.propTypes = {
   leftIcon: PropTypes.object,
-  rightIcon: PropTypes.object,
+  rightContent: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.object
+  ]),
   title: PropTypes.string,
   onLeftPress: PropTypes.func,
   onRightPress: PropTypes.func,
