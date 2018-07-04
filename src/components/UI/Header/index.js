@@ -44,7 +44,7 @@ Header.propTypes = {
   leftIcon: PropTypes.object,
   rightContent: PropTypes.oneOfType([
     PropTypes.object,
-    PropTypes.object
+    PropTypes.string
   ]),
   title: PropTypes.string,
   onLeftPress: PropTypes.func,
