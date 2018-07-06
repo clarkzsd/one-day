@@ -45,6 +45,18 @@
   margin-bottom: 9px;
   transition: transform 0.3s ease-out;
 
+  &--finished {
+    color: $grey-500;
+
+    .taskItem__title {
+      text-decoration: line-through;
+    }
+
+    .taskItem__statusDot {
+      background-color: $grey-500;
+    }
+  }
+
   &--swiped {
     transform: translateX(-104px);
   }
@@ -69,12 +81,26 @@
       margin-right: 6px;
     }
   }
-  &__checkCircle {
+  &__checkBox {
     display: block;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid $grey-500;
+
+    &--unchecked {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid $grey-500;
+      cursor: pointer;
+    }
+
+    &--checked {
+      width: 20px;
+      height: 20px;
+      & > i {
+        color: $teal-500;
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
   &__statusDot {
     display: block;

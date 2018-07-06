@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { taskDegree } from '../../base/constants/task';
 import moment from 'moment';
+import classnames from 'classnames';
+
 import './style.scss';
 
 class TaskItem extends Component {
@@ -19,7 +21,8 @@ class TaskItem extends Component {
   }
 
   state = {
-    isSwiped: false
+    isSwiped: false,
+    isFinished: false
   }
 
   handleOnEdit = () => {
@@ -34,14 +37,19 @@ class TaskItem extends Component {
 
   handleOnFinish = () => {
     const { data, onFinish } = this.props;
-    // Todo
-    onFinish && onFinish(data.id);
+    const update = {
+      id: data.id,
+      status: 2
+    };
+    this.setState({ isFinished: true });
+    onFinish && onFinish(update);
   }
 
   handleTouchStart = (e) => {
     this.xDown = e.touches[0].clientX;
     this.yDown = e.touches[0].clientY;
   }
+
   handleTouchMove = (e) => {
     if (!this.xDown || !this.yDown) {
       return;
@@ -60,14 +68,27 @@ class TaskItem extends Component {
       });
     }
   }
+
+  renderCheckBox () {
+    return this.state.isFinished
+      ? <span className='taskItem__checkBox taskItem__checkBox--checked'>
+        <i className='material-icons'>done</i>
+      </span>
+      : <span onClick={this.handleOnFinish} className='taskItem__checkBox taskItem__checkBox--unchecked' />;
+  }
   render () {
     const { data } = this.props;
     const { degree, name, status, deadline } = data;
-    const { isSwiped } = this.state;
+    const { isSwiped, isFinished } = this.state;
+    const taskItemCls = classnames({
+      'taskItem': true,
+      'taskItem--swiped': isSwiped,
+      'taskItem--finished': isFinished
+    });
     return (
       <div className='taskItem-container'>
         <div
-          className={`taskItem${isSwiped ? ' taskItem--swiped' : ''}`}
+          className={taskItemCls}
           onTouchStart={this.handleTouchStart}
           onTouchMove={this.handleTouchMove}>
           <div className='taskItem__content'>
@@ -88,7 +109,7 @@ class TaskItem extends Component {
             </div>
           </div>
           {
-            status === 1 && <span className='taskItem__checkCircle' />
+            status === 1 && this.renderCheckBox()
           }
         </div>
         {
