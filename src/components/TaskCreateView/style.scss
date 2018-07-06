@@ -1,0 +1,44 @@
+.taskCreateView {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  transition: 1s;
+  z-index: 999;
+
+  form {
+    margin-top: 56px;
+  }
+
+  .formField {
+    width: 100%;
+    box-sizing: border-box;
+    height: 56px;
+    padding-top: 10px;
+
+    .inner {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input {
+      color: #000000;
+      font-size: 15px;
+      background-color: transparent;
+      padding: 4px 0;
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid $grey-500;
+    }
+
+    label {
+      font-size: 13px;
+      color: $light-blue;
+    }
+  }
+
+  &__submitBtn {
+    background: transparent;
+  }
+}
