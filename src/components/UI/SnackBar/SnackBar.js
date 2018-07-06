@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { CSSTransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import './style.scss';
 
 class SnackBar extends Component {
@@ -63,15 +63,15 @@ class SnackBar extends Component {
   render () {
     const { message, isOpen, action, onButtonClick } = this.props;
     return (
-      <CSSTransitionGroup
-        transitionName='snackbar'
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}>
-        {
-          isOpen &&
+      <CSSTransition
+        in={isOpen}
+        classNames='snackbar'
+        timeout={500}
+        unmountOnExit>
+        {state => (
           <div
             key='snackbar'
-            className='snack-bar'
+            className='snackbar'
             onMouseEnter={this.clearCloseTimer}
             onMouseLeave={this.startCloseTimer}>
             <div className='inner'>
@@ -79,8 +79,8 @@ class SnackBar extends Component {
               { action && <button onClick={onButtonClick} />}
             </div>
           </div>
-        }
-      </CSSTransitionGroup>
+        )}
+      </CSSTransition>
     );
   }
 }

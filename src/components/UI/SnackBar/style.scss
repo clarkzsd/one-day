@@ -1,4 +1,4 @@
-.snack-bar {
+.snackbar {
   display: flex;
   align-items: center;
   background-color: #323232;
@@ -6,7 +6,7 @@
   width: 100%;
   font-size: 14px;
   position: fixed;
-  bottom: 0;
+  left: 0;
   color: $light-white;
 
   .inner {
@@ -18,16 +18,16 @@
   bottom: -100%;
 }
 
-.snackbar-enter.snackbar-enter-active {
+.snackbar-enter-done {
   bottom: 0;
   transition: bottom 500ms ease-in;
 }
 
-.snackbar-leave {
+.snackbar-exit {
   bottom: 0;
 }
 
-.snackbar-leave.snackbar-leave-active {
+.snackbar-exit-active {
   bottom: -100%;
   transition: bottom 500ms ease-in;
 }
