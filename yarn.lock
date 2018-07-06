@@ -5476,7 +5476,7 @@ rmc-feedback@^2.0.0:
     babel-runtime "6.x"
     classnames "^2.2.5"
 
-rmc-picker@~5.0.0:
+rmc-picker@^5.0.5, rmc-picker@~5.0.0:
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/rmc-picker/-/rmc-picker-5.0.5.tgz#2a33244ced1f4e6b10611ff6e0384a5dbbfc566e"
   dependencies:

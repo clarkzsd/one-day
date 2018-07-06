@@ -26,6 +26,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "rmc-date-picker": "^6.0.8",
+    "rmc-picker": "^5.0.5",
     "shortid": "^2.2.8"
   },
   "devDependencies": {
