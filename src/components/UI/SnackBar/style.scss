@@ -8,6 +8,7 @@
   position: fixed;
   left: 0;
   color: $light-white;
+  z-index: 1000;
 
   .inner {
     padding: 0 48px;

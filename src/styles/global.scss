@@ -32,16 +32,11 @@ i {
   cursor: pointer;
 }
 
-form {
-  width: 100%;
-}
-
 select, input {
   background-color: transparent;
   width: 100%;
   border: none;
   border-bottom: 1px solid #9E9E9E;
-  height: 56px;
   color: #9E9E9E;
 }
 
@@ -62,9 +57,6 @@ select, input {
 }
 
 // color
-.section-title {
-  color: $grey-500;
-}
 
 .floating-action-button > i, .app-header {
   color: $light-white;
@@ -72,36 +64,4 @@ select, input {
 
 .floating-action-button {
   background-color: $light-blue;
-}
-
-.urgent-bg {
-  background-color: $pink-500;
-}
-
-.primary-bg {
-  background-color: $primary-color;
-}
-
-.secondary-bg {
-  background-color: $secondary-color;
-}
-
-.finished-bg {
-  background-color: $teal-500;
-}
-
-.urgent {
-  color: $pink-500;
-}
-
-.primary {
-  color: $primary-color;
-}
-
-.secondary {
-  color: $secondary-color;
-}
-
-.finished {
-  color: $teal-500;
 }
