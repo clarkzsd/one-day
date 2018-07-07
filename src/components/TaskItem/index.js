@@ -13,8 +13,10 @@ class TaskItem extends Component {
       degree: PropTypes.number,
       name: PropTypes.string,
       status: PropTypes.number,
-      deadline: PropTypes.string
+      deadline: PropTypes.string,
+      detail: PropTypes.string
     }),
+    projectName: PropTypes.string,
     onDelete: PropTypes.func,
     onEdit: PropTypes.func,
     onFinish: PropTypes.func
@@ -77,8 +79,8 @@ class TaskItem extends Component {
       : <span onClick={this.handleOnFinish} className='taskItem__checkBox taskItem__checkBox--unchecked' />;
   }
   render () {
-    const { data } = this.props;
-    const { degree, name, status, deadline } = data;
+    const { data, projectName } = this.props;
+    const { degree, name, status, deadline, detail } = data;
     const { isSwiped, isFinished } = this.state;
     const taskItemCls = classnames({
       'taskItem': true,
@@ -98,8 +100,17 @@ class TaskItem extends Component {
                 {name}
               </span>
             </div>
+            {
+              projectName &&
+              <div className='taskItem__projectName'>
+                <i className='material-icons'>
+                  flag
+                </i>
+                <span>{projectName}</span>
+              </div>
+            }
             <div className='taskItem__detail'>
-              blablabla
+              {detail}
             </div>
             <div className='taskItem__dateInfo'>
               <i className='material-icons'>

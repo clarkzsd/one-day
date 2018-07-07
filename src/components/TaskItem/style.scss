@@ -66,12 +66,14 @@
     align-items: center;
     font-weight: 600;
     font-size: 18px;
+    margin-bottom: 8px;
   }
   &__detail {
     margin: 8px 0px 8px 24px;
     color: $grey-500;
+    word-break:break-all;
   }
-  &__dateInfo  {
+  &__dateInfo, &__projectName  {
     margin-left: 24px;
 
     .material-icons {
@@ -83,6 +85,7 @@
   }
   &__checkBox {
     display: block;
+    flex-shrink: 0;
 
     &--unchecked {
       width: 16px;
