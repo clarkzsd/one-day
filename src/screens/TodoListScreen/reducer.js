@@ -55,6 +55,22 @@ const homeReducer = (state = INITIAL_STATE, action) => {
           loading: false
         }
       };
+    case appActionTypes.CREATE_TASK_REQUEST:
+      return {
+        ...state,
+        todos: {
+          data: state.todos.data,
+          loading: true
+        }
+      };
+    case appActionTypes.CREATE_TASK_SUCCEEDED:
+      return {
+        ...state,
+        todos: {
+          data: state.todos.data.concat([action.payload]),
+          loading: false
+        }
+      };
     default:
       return state;
   }
