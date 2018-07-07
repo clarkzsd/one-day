@@ -25,7 +25,10 @@ class Drawer extends Component {
     const { data } = projectsData;
     return data.map((item) =>
       <div className='menu-item' key={item.id}>
-        <Link to={`/projects/${item.id}`} onClick={closeDrawer}>
+        <Link to={{
+          pathname: `/projects/${item.id}`,
+          state: {projectName: item.name}
+        }} onClick={closeDrawer}>
           <div className='inner'>
             <i className='material-icons'>event_available</i>
             <span className='menu-item-content'>{item.name}</span>
@@ -68,6 +71,14 @@ class Drawer extends Component {
             </Link>
           </div>
           <div className='menu-item'>
+            <Link to='/statistics' onClick={closeDrawer}>
+              <div className='inner'>
+                <i className='material-icons'>waves</i>
+                <span className='menu-item-content'>数据统计</span>
+              </div>
+            </Link>
+          </div>
+          <div className='menu-item'>
             <Link to='/archive' onClick={closeDrawer}>
               <div className='inner'>
                 <i className='material-icons'>event_available</i>
@@ -96,10 +107,10 @@ class Drawer extends Component {
   }
 }
 
-const mapStateToProps = ({ ui, home }) => {
+const mapStateToProps = ({ ui, app }) => {
   return {
     isDrawerOpen: ui.drawer.isOpen,
-    projectsData: home.projects
+    projectsData: app.projects
   };
 };
 
