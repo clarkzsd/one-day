@@ -1,6 +1,16 @@
+/**
+ * Created By Clark Zhou.
+ *
+ * This component is used in multiple scenes:
+ *  1. Add Todo task for today
+ *  2. Add task for specific project
+ *
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'rmc-date-picker';
+import moment from 'moment';
 import PopupDatePicker from 'rmc-date-picker/lib/Popup';
 import Popup from 'rmc-picker/lib/Popup';
 import Picker from 'rmc-picker';
@@ -26,6 +36,7 @@ export function format (date) {
 
 class TaskCreateView extends Component {
   static propTypes = {
+    id: PropTypes.string.isRequired,
     closeView: PropTypes.func.isRequired,
     projects: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -34,23 +45,25 @@ class TaskCreateView extends Component {
 
   state = {
     degree: null,
-    title: '',
+    name: '',
     detail: '',
+    status: null,
     project: null,
     deadline: null,
     assign_date: null
   }
 
   handleSubmit = () => {
-    const { degree, title, detail, deadline, assign_date, project } = this.state;
-    const { onSubmit, openSnackBar } = this.props;
+    const { degree, name, detail, deadline, assign_date, project, status } = this.state;
+    const { onSubmit, openSnackBar, id } = this.props;
     const data = {
-      title,
+      name,
       detail,
       degree,
+      status: id === 'todayTaskCreateView' ? 1 : status,
       project_id: project ? project.id : null,
-      deadline,
-      assign_date
+      deadline: moment(deadline).format('YYYY-MM-DD HH:mm:ss'),
+      assign_date: moment(assign_date).format('YYYY-MM-DD HH:mm:ss')
     };
 
     // validation
@@ -165,7 +178,7 @@ class TaskCreateView extends Component {
 
   render () {
     const { closeView } = this.props;
-    const { deadline, assign_date, title, detail } = this.state;
+    const { deadline, assign_date, name, detail } = this.state;
     const datePicker = (
       <DatePicker
         rootNativeProps={{'data-xx': 'yy'}}
@@ -188,8 +201,8 @@ class TaskCreateView extends Component {
         <form className='taskCreateView__form'>
           <div className='formField'>
             <div className='inner'>
-              <label htmlFor='taskTitle'>Title</label>
-              <input onChange={this.onFormFieldChange} type='text' maxLength='10' id='taskTitle' name='title' value={title} />
+              <label htmlFor='taskName'>Name</label>
+              <input onChange={this.onFormFieldChange} type='text' maxLength='10' id='taskName' name='name' value={name} />
             </div>
           </div>
           <div className='formField'>
