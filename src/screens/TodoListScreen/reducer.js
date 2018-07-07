@@ -5,10 +5,6 @@ const INITIAL_STATE = {
   todos: {
     data: [],
     loading: false
-  },
-  projects: {
-    data: [],
-    loading: false
   }
 };
 
@@ -18,7 +14,7 @@ const homeReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         todos: {
-          data: [],
+          data: state.todos.data,
           loading: true
         }
       };
@@ -26,22 +22,6 @@ const homeReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         todos: {
-          data: action.payload,
-          loading: false
-        }
-      };
-    case types.FETCH_PROJECTS_REQUEST:
-      return {
-        ...state,
-        projects: {
-          data: [],
-          loading: true
-        }
-      };
-    case types.FETCH_PROJECTS_SUCCEEDED:
-      return {
-        ...state,
-        projects: {
           data: action.payload,
           loading: false
         }
