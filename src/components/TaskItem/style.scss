@@ -5,13 +5,13 @@
   align-items: center;
 
   .taskItem__actionBtnList {
-    position: fixed;
-    right: 16px;
+    position: absolute;
+    right: 8px;
 
     li {
       display: inline-block;
       &:first-child {
-        margin-right: 8px;
+        margin: 8px;
       }
     }
 
