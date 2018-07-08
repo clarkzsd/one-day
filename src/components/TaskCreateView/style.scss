@@ -42,3 +42,21 @@
     background: transparent;
   }
 }
+
+.taskCreateView-enter {
+  top: 100%;
+}
+
+.taskCreateView-enter-done {
+  top: 0;
+  transition: all 300ms ease-in;
+}
+
+.taskCreateView-exit {
+  top: 0;
+}
+
+.taskCreateView-exit-active {
+  top: 100%;
+  transition: all 300ms ease-in;
+}

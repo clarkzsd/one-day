@@ -15,8 +15,10 @@ import PopupDatePicker from 'rmc-date-picker/lib/Popup';
 import Popup from 'rmc-picker/lib/Popup';
 import Picker from 'rmc-picker';
 import zh_CN from 'rmc-date-picker/lib/locale/zh_CN';
+
 import Header from '../UI/Header';
-import { taskDegreeList, taskDegree } from '../../base/constants/task';
+
+import { taskDegreeList, taskDegree, taskStatus, taskStatusList } from '../../base/constants/task';
 import './style.scss';
 import 'rmc-picker/assets/index.css';
 import 'rmc-date-picker/assets/index.css';
@@ -26,21 +28,14 @@ export const minDate = new Date(2015, 8, 15, 10, 30, 0);
 export const maxDate = new Date(2049, 1, 1, 23, 49, 59);
 export let now = new Date();
 
-export function format (date) {
-  let mday = date.getDate();
-  let month = date.getMonth() + 1;
-  month = month < 10 ? `0${month}` : month;
-  mday = mday < 10 ? `0${mday}` : mday;
-  return `${date.getFullYear()}-${month}-${mday}`;
-}
-
 class TaskCreateView extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     closeView: PropTypes.func.isRequired,
     projects: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    openSnackBar: PropTypes.func.isRequired
+    openSnackBar: PropTypes.func.isRequired,
+    projectId: PropTypes.string
   }
 
   state = {
@@ -53,24 +48,69 @@ class TaskCreateView extends Component {
     assign_date: null
   }
 
+  datePicker = (
+    <DatePicker
+      rootNativeProps={{'data-xx': 'yy'}}
+      minDate={minDate}
+      maxDate={maxDate}
+      defaultDate={now}
+      mode='date'
+      locale={zh_CN}
+    />
+  );
+
   handleSubmit = () => {
     const { degree, name, detail, deadline, assign_date, project, status } = this.state;
-    const { onSubmit, openSnackBar, id } = this.props;
-    const data = {
-      name,
-      detail,
-      degree,
-      status: id === 'todayTaskCreateView' ? 1 : status,
-      project_id: project ? project.id : null,
-      deadline: moment(deadline).format('YYYY-MM-DD HH:mm:ss'),
-      assign_date: moment(assign_date).format('YYYY-MM-DD HH:mm:ss')
-    };
+    const { onSubmit, openSnackBar, id, projectId } = this.props;
+    let data, formData;
+    switch (id) {
+      case 'todayTaskCreateView':
+        formData = {
+          name,
+          detail,
+          degree,
+          project,
+          deadline
+        };
+        data = {
+          name,
+          detail,
+          degree,
+          project_id: project ? project.id : null,
+          status: 1,
+          assign_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+          deadline: moment(deadline).format('YYYY-MM-DD HH:mm:ss')
+        };
+        break;
+      case 'projectTaskCreateView':
+        formData = {
+          name,
+          detail,
+          degree,
+          status,
+          deadline,
+          assign_date
+        };
+        data = {
+          name,
+          detail,
+          degree,
+          status,
+          project_id: projectId,
+          assign_date: moment(assign_date).format('YYYY-MM-DD HH:mm:ss'),
+          deadline: moment(deadline).format('YYYY-MM-DD HH:mm:ss')
+        };
+        break;
+      default:
+        data = {};
+        break;
+    }
 
     // validation
-    for (const key in data) {
-      if (data.hasOwnProperty(key)) {
-        if (data[key] === '' || data[key] === null) {
-          return openSnackBar(`${key.toUpperCase} 不能为空`);
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        if (formData[key] === '' || formData[key] === null) {
+          return openSnackBar(`${key.toUpperCase()} 不能为空`);
         };
       }
     }
@@ -84,6 +124,10 @@ class TaskCreateView extends Component {
 
   onProjectChange = (project) => {
     this.setState({project});
+  }
+
+  onStatusChange = (status) => {
+    this.setState({status});
   }
 
   onProjectPopupDismiss = () => {
@@ -109,6 +153,39 @@ class TaskCreateView extends Component {
     });
   }
 
+  renderStatusPicker = () => {
+    const { status } = this.state;
+    return (
+      <Popup
+        transitionName='rmc-picker-popup-slide-fade'
+        maskTransitionName='rmc-picker-popup-fade'
+        content={
+          <Picker
+            selectedValue={this.state.status}
+            onValueChange={this.onStatusChange}
+          >
+            {
+              taskStatusList.slice(0, 2).map((item) => (
+                <Picker.Item key={item.key} value={item.key}>
+                  {item.value.toUpperCase()}
+                </Picker.Item>
+              ))
+            }
+          </Picker>
+        }
+        title='任务状态'
+        onDismiss={this.onProjectPopupDismiss}
+      >
+        <div className='formField'>
+          <div className='inner'>
+            <label htmlFor='taskStatus'>Status</label>
+            <input type='text' id='taskStatus' name='status' value={status !== null ? taskStatus[status] : ''} />
+          </div>
+        </div>
+      </Popup>
+    );
+  }
+
   renderDegreePicker = () => {
     const { degree } = this.state;
     return (
@@ -129,7 +206,7 @@ class TaskCreateView extends Component {
             }
           </Picker>
         }
-        title='所属项目'
+        title='紧急程度'
         onDismiss={this.onProjectPopupDismiss}
       >
         <div className='formField'>
@@ -176,19 +253,34 @@ class TaskCreateView extends Component {
     );
   }
 
-  render () {
-    const { closeView } = this.props;
-    const { deadline, assign_date, name, detail } = this.state;
-    const datePicker = (
-      <DatePicker
-        rootNativeProps={{'data-xx': 'yy'}}
-        minDate={minDate}
-        maxDate={maxDate}
-        defaultDate={now}
-        mode='date'
-        locale={zh_CN}
-      />
+  renderAssignDatePicker = () => {
+    const { assign_date } = this.state;
+    return (
+      <PopupDatePicker
+        datePicker={this.datePicker}
+        transitionName='rmc-picker-popup-slide-fade'
+        maskTransitionName='rmc-picker-popup-fade'
+        title='Assign date picker'
+        date={assign_date}
+        onChange={this.onAssignDateChange}
+      >
+        <div className='formField'>
+          <div className='inner'>
+            <label htmlFor='taskAssignDate'>Assign date</label>
+            <input
+              type='text'
+              id='taskAssignDate'
+              value={(assign_date && moment(assign_date).format('YYYY-MM-DD')) || ''}
+            />
+          </div>
+        </div>
+      </PopupDatePicker>
     );
+  }
+
+  render () {
+    const { closeView, id } = this.props;
+    const { deadline, name, detail } = this.state;
     return (
       <div className='taskCreateView'>
         <Header
@@ -212,37 +304,24 @@ class TaskCreateView extends Component {
             </div>
           </div>
           { this.renderDegreePicker() }
-          { this.renderProjectPicker() }
+          { id === 'todayTaskCreateView' && this.renderProjectPicker() }
+          { id === 'projectTaskCreateView' && this.renderStatusPicker() }
           <PopupDatePicker
-            datePicker={datePicker}
+            datePicker={this.datePicker}
             transitionName='rmc-picker-popup-slide-fade'
             maskTransitionName='rmc-picker-popup-fade'
-            title='Date picker'
+            title='Deadline picker'
             date={deadline}
             onChange={this.onDeadlineChange}
           >
             <div className='formField'>
               <div className='inner'>
                 <label htmlFor='taskDeadline'>Deadline</label>
-                <input type='text' id='taskDeadline' value={(deadline && format(deadline)) || ''} />
+                <input type='text' id='taskDeadline' value={(deadline && moment(deadline).format('YYYY-MM-DD')) || ''} />
               </div>
             </div>
           </PopupDatePicker>
-          <PopupDatePicker
-            datePicker={datePicker}
-            transitionName='rmc-picker-popup-slide-fade'
-            maskTransitionName='rmc-picker-popup-fade'
-            title='Assign date picker'
-            date={assign_date}
-            onChange={this.onAssignDateChange}
-          >
-            <div className='formField'>
-              <div className='inner'>
-                <label htmlFor='taskAssignDate'>Assign date</label>
-                <input type='text' id='taskAssignDate' value={(assign_date && format(assign_date)) || ''} />
-              </div>
-            </div>
-          </PopupDatePicker>
+          { id === 'projectTaskCreateView' && this.renderAssignDatePicker() }
         </form>
       </div>
     );
