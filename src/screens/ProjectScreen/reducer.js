@@ -1,4 +1,5 @@
 import * as types from './action';
+import * as appActionTypes from '../App/action';
 
 const INITIAL_STATE = {
   tasks: {
@@ -22,6 +23,31 @@ const projectReducer = (state = INITIAL_STATE, action) => {
         ...state,
         tasks: {
           data: action.payload,
+          loading: false
+        }
+      };
+    case appActionTypes.DELETE_TASK_SUCCEEDED:
+      const updates = state.tasks.data.filter(item => item.id !== action.id);
+      return {
+        ...state,
+        tasks: {
+          data: updates,
+          loading: false
+        }
+      };
+    case types.CREATE_PROJECT_TASK_REQUEST:
+      return {
+        ...state,
+        tasks: {
+          data: state.tasks.data,
+          loading: true
+        }
+      };
+    case types.CREATE_PROJECT_TASK_SUCCEEDED:
+      return {
+        ...state,
+        tasks: {
+          data: state.tasks.data.concat([action.payload]),
           loading: false
         }
       };
