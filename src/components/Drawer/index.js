@@ -2,40 +2,115 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { closeDrawer } from '../action';
+
 import ToolBar from '../UI/ToolBar';
 import AboutModal from '../AboutModal';
+
+import { closeDrawer } from '../action';
+import { createProject } from '../../screens/App/action';
+
 import './style.scss';
 
 class Drawer extends Component {
-  state = {
-    isModalOpen: false
+  constructor (props) {
+    super(props);
+    this.newProjectInput = null;
+    this.setNewProjectInputRef = ele => {
+      this.newProjectInput = ele;
+    };
   }
+
+  state = {
+    isModalOpen: false,
+    isNewProjectAdding: false,
+    newProjectName: ''
+  }
+
+  componentDidMount () {
+    document.addEventListener('mouseup', this.handleMouseUp, false);
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.newProjectInput) {
+      this.newProjectInput.focus();
+    }
+
+    document.addEventListener('mouseup', this.handleMouseUp, false);
+  }
+
+  handleMouseUp = (e) => {
+    if (!e.target.id.includes('newProject') && this.state.isNewProjectAdding) {
+      this.setState({
+        isNewProjectAdding: false,
+        newProjectName: ''
+      });
+      document.removeEventListener('mouseup', this.handleMouseUp, false);
+    }
+  }
+
+  handleCreateProject = (e) => {
+    const { newProjectName } = this.state;
+    let data;
+    if (e.keyCode === 13) {
+      data = {
+        name: newProjectName
+      };
+      this.props.createProject(data).then(() => this.setState({
+        isNewProjectAdding: false,
+        newProjectName: ''
+      }));
+    }
+  }
+
   handleModalOpen = () => {
     this.props.closeDrawer();
     this.setState({isModalOpen: true});
   }
-  handleLoginPress = () => {
-    this.props.closeDrawer();
-    this.props.openSnackBar('还在开发中。。。');
+
+  handleNewProjectChange = (e) => {
+    this.setState({newProjectName: e.target.value});
+  }
+
+  handleAddProjectBtnClick = () => {
+    this.setState({isNewProjectAdding: true});
   }
 
   renderProjectList = () => {
     const { projectsData, closeDrawer } = this.props;
+    const { isNewProjectAdding, newProjectName } = this.state;
     const { data } = projectsData;
-    return data.map((item) =>
+    const list = data.map((item) =>
       <div className='menu-item' key={item.id}>
         <Link to={{
           pathname: `/projects/${item.id}`,
           state: {projectName: item.name}
         }} onClick={closeDrawer}>
           <div className='inner'>
-            <i className='material-icons'>event_available</i>
+            <span className='drawer__emojiIcon'>🏁</span>
             <span className='menu-item-content'>{item.name}</span>
           </div>
         </Link>
       </div>
     );
+    if (isNewProjectAdding) {
+      list.push(
+        <div className='menu-item drawer__newProject' id='newProject' key='new-item'>
+          <div className='inner' id='newProject__inner'>
+            <span className='drawer__emojiIcon' id='newProject__emojiIcon'>🏁</span>
+            <input
+              id='newProjectInput'
+              ref={this.setNewProjectInputRef}
+              className='menu-item-content'
+              value={newProjectName}
+              placeholder='New Project'
+              onChange={this.handleNewProjectChange}
+              onKeyDown={this.handleCreateProject}
+            />
+          </div>
+        </div>
+      );
+    }
+    return list;
   }
 
   render () {
@@ -78,14 +153,6 @@ class Drawer extends Component {
               </div>
             </Link>
           </div>
-          <div className='menu-item'>
-            <Link to='/archive' onClick={closeDrawer}>
-              <div className='inner'>
-                <i className='material-icons'>event_available</i>
-                <span className='menu-item-content'>完成事项</span>
-              </div>
-            </Link>
-          </div>
           <div className='drawer__subtitle'>
             <div className='inner'>
               <span>
@@ -97,7 +164,9 @@ class Drawer extends Component {
         </div>
         <footer>
           <div className='inner'>
-            <span className='sync-status'>未同步</span>
+            <button className='drawer__addProjectBtn' onClick={this.handleAddProjectBtnClick}>
+              <i className='material-icons'>add</i>
+            </button>
             <button className='about' onClick={this.handleModalOpen}>关于</button>
           </div>
         </footer>
@@ -116,14 +185,15 @@ const mapStateToProps = ({ ui, app }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    closeDrawer: () => dispatch(closeDrawer())
+    closeDrawer: () => dispatch(closeDrawer()),
+    createProject: (project) => dispatch(createProject(project))
   };
 };
 
 Drawer.propTypes = {
   isDrawerOpen: PropTypes.bool.isRequired,
   closeDrawer: PropTypes.func.isRequired,
-  openSnackBar: PropTypes.func.isRequired,
+  createProject: PropTypes.func.isRequired,
   projectsData: PropTypes.object.isRequired
 };
 

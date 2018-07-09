@@ -13,7 +13,7 @@ const appReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         projects: {
-          data: [],
+          data: state.projects.data,
           loading: true
         }
       };
@@ -22,6 +22,22 @@ const appReducer = (state = INITIAL_STATE, action) => {
         ...state,
         projects: {
           data: action.payload,
+          loading: false
+        }
+      };
+    case types.CREATE_PROJECT_REQUEST:
+      return {
+        ...state,
+        projects: {
+          data: state.projects.data,
+          loading: true
+        }
+      };
+    case types.CREATE_PROJECT_SUCCEEDED:
+      return {
+        ...state,
+        projects: {
+          data: state.projects.data.concat([action.payload]),
           loading: false
         }
       };

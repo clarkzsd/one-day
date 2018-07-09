@@ -49,13 +49,33 @@ export const CREATE_TASK_FAILED = 'CREATE_TASK_FAILED';
 export const createTask = (task) => {
   return (dispatch, getState) => {
     dispatch({type: CREATE_TASK_REQUEST});
-    callAPI('post', `/api/todos`, task).then(
+    return callAPI('post', `/api/todos`, task).then(
       (response) => {
         const newTask = {
           ...task,
           id: response.data.id
         };
         dispatch({type: CREATE_TASK_SUCCEEDED, payload: newTask});
+        dispatch({type: OPEN_SNACKBAR, payload: '创建成功'});
+      },
+      error => dispatch({type: CREATE_TASK_FAILED, error})
+    );
+  };
+};
+
+export const CREATE_PROJECT_REQUEST = 'CREATE_PROJECT_REQUEST';
+export const CREATE_PROJECT_SUCCEEDED = 'CREATE_PROJECT_SUCCEEDED';
+export const CREATE_PROJECT_FAILED = 'CREATE_PROJECT_FAILED';
+export const createProject = (project) => {
+  return (dispatch, getState) => {
+    dispatch({type: CREATE_TASK_REQUEST});
+    return callAPI('post', `/api/projects`, project).then(
+      (response) => {
+        const newProject = {
+          ...project,
+          id: response.data.id
+        };
+        dispatch({type: CREATE_PROJECT_SUCCEEDED, payload: newProject});
         dispatch({type: OPEN_SNACKBAR, payload: '创建成功'});
       },
       error => dispatch({type: CREATE_TASK_FAILED, error})
