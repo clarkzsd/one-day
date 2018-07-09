@@ -19,7 +19,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background-color: $grey-500;
+      background-color: $gray-500;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -46,14 +46,14 @@
   transition: transform 0.3s ease-out;
 
   &--finished {
-    color: $grey-500;
+    color: $gray-500;
 
     .taskItem__title {
       text-decoration: line-through;
     }
 
     .taskItem__statusDot {
-      background-color: $grey-500;
+      background-color: $gray-500;
     }
   }
 
@@ -70,14 +70,14 @@
   }
   &__detail {
     margin: 8px 0px 8px 24px;
-    color: $grey-500;
+    color: $gray-500;
     word-break:break-all;
   }
   &__dateInfo, &__projectName  {
     margin-left: 24px;
 
     .material-icons {
-      color: $grey-500;
+      color: $gray-500;
       font-weight: 600;
       font-size: 0.9rem;
       margin-right: 6px;
@@ -91,7 +91,7 @@
       width: 16px;
       height: 16px;
       border-radius: 50%;
-      border: 2px solid $grey-500;
+      border: 2px solid $gray-500;
       cursor: pointer;
     }
 
