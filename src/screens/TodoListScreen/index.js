@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 import FloatingButton from '../../components/UI/FloatingButton';
-import EditTodoModal from '../../components/EditTodoModal';
 import TaskCreateView from '../../components/TaskCreateView';
+import TaskEditView from '../../components/TaskEditView';
 import TaskItem from '../../components/TaskItem';
 import Header from '../../components/UI/Header';
 import Tabs from '../../components/UI/Tabs';
 
-import { fetchTodayTodos } from './action';
-import { fetchProjects, deleteTask, updateTask, createTask } from '../App/action';
+import { fetchTodayTodos, updateTodayTask } from './action';
+import { fetchProjects, deleteTask, createTask, finishTask } from '../App/action';
 import { openDrawer, openSnackBar } from '../../components/action';
 
 import { todayTaskStatusList } from '../../base/constants/task';
@@ -22,14 +22,9 @@ const TabsPanel = Tabs.TabsPanel;
 
 class TodoListScreen extends Component {
   state = {
-    isModalOpen: false,
     isCreateViewOpen: false,
-    editingTodo: {
-      title: '',
-      status: '',
-      deadline: null,
-      finishedAt: null
-    }
+    isEditViewOpen: false,
+    editingTask: null
   }
 
   componentDidMount () {
@@ -47,38 +42,50 @@ class TodoListScreen extends Component {
     this.setState({isCreateViewOpen: true});
   }
 
+  handleEditTask = (task) => {
+    this.setState({
+      isEditViewOpen: true,
+      editingTask: task
+    });
+  }
+
   handleCreateTask = (task) => {
-    this.props.createTask(task);
-    this.setState({isCreateViewOpen: false});
+    this.props.createTask(task).then(() => this.handleCloseView('createView'));
+  }
+
+  handleUpdateTask = (task) => {
+    this.props.updateTodayTask(task).then(() => this.handleCloseView('editView'));
   }
 
   handleFinishTask = (task) => {
-    this.props.updateTask(task);
+    this.props.finishTask(task);
   }
 
   handleDeleteTask = (id) => {
     this.props.deleteTask(id);
   }
 
-  handleEditTask = (todo) => {
-    // this.setState({isModalOpen: true, editingTodo: todo});
-  }
-
-  handleSubmitEditingForm = (todo) => {
-    // this.props.editTodo(todo);
-    this.setState({isModalOpen: false});
-  }
-
-  handleCancelEditing = () => {
-    this.setState({isModalOpen: false});
-  }
-
-  handleCloseView = () => {
-    this.setState({isCreateViewOpen: false});
+  handleCloseView = (viewType) => {
+    switch (viewType) {
+      case 'createView':
+        this.setState({isCreateViewOpen: false});
+        break;
+      case 'editView':
+        this.setState({isEditViewOpen: false});
+        break;
+      default:
+        break;
+    }
   }
 
   renderTasksList = (statusKey) => {
-    const tasks = this.props.todayTodosData.data;
+    const { todayTodosData } = this.props;
+    if (todayTodosData.loading) {
+      return <span className='todayContainer__todoList--empty'>
+        loading……
+      </span>;
+    }
+    const tasks = todayTodosData.data;
     const selectedTasks = tasks.filter(task => task.status === statusKey);
     if (statusKey === 1 && selectedTasks.length === 0) {
       return <span className='todayContainer__todoList--empty'>
@@ -123,25 +130,35 @@ class TodoListScreen extends Component {
           }
         </Tabs>
         <FloatingButton icon={<i className='material-icons'>add</i>} onPress={this.onPressCreate} />
-        { this.state.isModalOpen &&
-          <EditTodoModal
-            onCancel={this.handleCancelEditing}
-            onSubmitForm={this.handleSubmitEditingForm}
-            editingTodo={this.state.editingTodo}
-          />
-        }
         <CSSTransition
           in={this.state.isCreateViewOpen}
           timeout={300}
-          classNames='taskCreateView'
+          classNames='taskFormView'
           unmountOnExit
         >
           {state => (
             <TaskCreateView
               id='todayTaskCreateView'
-              closeView={this.handleCloseView}
+              closeView={() => this.handleCloseView('createView')}
               projects={projectsData.data}
               onSubmit={this.handleCreateTask}
+              openSnackBar={openSnackBar}
+            />
+          )}
+        </CSSTransition>
+        <CSSTransition
+          in={this.state.isEditViewOpen}
+          timeout={300}
+          classNames='taskFormView'
+          unmountOnExit
+        >
+          {state => (
+            <TaskEditView
+              id='todayTaskEditView'
+              task={this.state.editingTask}
+              closeView={() => this.handleCloseView('editView')}
+              projects={projectsData.data}
+              onSubmit={this.handleUpdateTask}
               openSnackBar={openSnackBar}
             />
           )}
@@ -164,7 +181,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchProjects: () => dispatch(fetchProjects()),
     openDrawer: () => dispatch(openDrawer()),
     deleteTask: (id) => dispatch(deleteTask(id)),
-    updateTask: (task) => dispatch(updateTask(task)),
+    updateTodayTask: (task) => dispatch(updateTodayTask(task)),
+    finishTask: (task) => dispatch(finishTask(task)),
     createTask: (task) => dispatch(createTask(task)),
     openSnackBar: (msg) => dispatch(openSnackBar(msg))
   };
@@ -179,7 +197,8 @@ TodoListScreen.propTypes = {
   createTask: PropTypes.func.isRequired,
   fetchTodayTodos: PropTypes.func.isRequired,
   fetchProjects: PropTypes.func.isRequired,
-  updateTask: PropTypes.func.isRequired
+  finishTask: PropTypes.func.isRequired,
+  updateTodayTask: PropTypes.func.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListScreen));

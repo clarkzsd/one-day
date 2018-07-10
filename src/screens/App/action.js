@@ -30,15 +30,18 @@ export const deleteTask = (id) => {
   };
 };
 
-export const UPDATE_TASK_REQUEST = 'UPDATE_TASK_REQUEST';
-export const UPDATE_TASK_SUCCEEDED = 'UPDATE_TASK_SUCCEEDED';
-export const UPDATE_TASK_FAILED = 'UPDATE_TASK_FAILED';
-export const updateTask = (task) => {
+export const FINISH_TASK_REQUEST = 'FINISH_TASK_REQUEST';
+export const FINISH_TASK_SUCCEEDED = 'FINISH_TASK_SUCCEEDED';
+export const FINISH_TASK_FAILED = 'FINISH_TASK_FAILED';
+export const finishTask = (task) => {
   return (dispatch, getState) => {
-    dispatch({type: UPDATE_TASK_REQUEST});
-    callAPI('put', `/api/todos`, task).then(
-      response => dispatch({type: OPEN_SNACKBAR, payload: '完成任务！👍'}),
-      error => dispatch({type: UPDATE_TASK_FAILED, error})
+    dispatch({type: FINISH_TASK_REQUEST});
+    return callAPI('put', `/api/todos`, task).then(
+      response => dispatch({type: OPEN_SNACKBAR, payload: '完成任务👍'}),
+      error => {
+        dispatch({type: FINISH_TASK_FAILED, error});
+        dispatch({type: OPEN_SNACKBAR, payload: '操作失败😭'});
+      }
     );
   };
 };

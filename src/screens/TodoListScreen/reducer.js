@@ -1,10 +1,11 @@
 import * as types from './action';
 import * as appActionTypes from '../App/action';
+import { updateObjectInArray } from '../../base/utils/immutable';
 
 const INITIAL_STATE = {
   todos: {
     data: [],
-    loading: false
+    loading: true
   }
 };
 
@@ -48,6 +49,22 @@ const homeReducer = (state = INITIAL_STATE, action) => {
         ...state,
         todos: {
           data: state.todos.data.concat([action.payload]),
+          loading: false
+        }
+      };
+    case types.UPDATE_TODAY_TASK_REQUEST:
+      return {
+        ...state,
+        todos: {
+          data: state.todos.data,
+          loading: true
+        }
+      };
+    case types.UPDATE_TODAY_TASK_SUCCEEDED:
+      return {
+        ...state,
+        todos: {
+          data: updateObjectInArray(state.todos.data, 'id', action),
           loading: false
         }
       };

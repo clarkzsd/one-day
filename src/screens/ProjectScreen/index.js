@@ -4,16 +4,17 @@ import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 
 // component
-import TaskCreateView from '../../components/TaskCreateView';
 import Header from '../../components/UI/Header';
 import FloatingButton from '../../components/UI/FloatingButton';
 import Tabs from '../../components/UI/Tabs';
+import TaskCreateView from '../../components/TaskCreateView';
+import TaskEditView from '../../components/TaskEditView';
 import TaskItem from '../../components/TaskItem';
 
 // action
 import { openDrawer, openSnackBar } from '../../components/action';
-import { deleteTask, updateTask } from '../App/action';
-import { fetchProjectTasks, createProjectTask } from './action';
+import { deleteTask, finishTask } from '../App/action';
+import { fetchProjectTasks, createProjectTask, updateProjectTask } from './action';
 
 import { taskStatusList } from '../../base/constants/task';
 import './style.scss';
@@ -27,15 +28,18 @@ class ProjectScreen extends Component {
     match: PropTypes.object,
     location: PropTypes.object,
     tasksData: PropTypes.object,
+    projectsData: PropTypes.object.isRequired,
     deleteTask: PropTypes.func,
     openSnackBar: PropTypes.func.isRequired,
     createProjectTask: PropTypes.func.isRequired,
-    updateTask: PropTypes.func.isRequired,
-    projectsData: PropTypes.object.isRequired
+    finishTask: PropTypes.func.isRequired,
+    updateProjectTask: PropTypes.func.isRequired
   }
 
   state = {
-    isCreateViewOpen: false
+    isCreateViewOpen: false,
+    isEditViewOpen: false,
+    editingTask: null
   }
 
   componentDidMount () {
@@ -50,11 +54,24 @@ class ProjectScreen extends Component {
   }
 
   handleCreateTask = (task) => {
-    this.props.createProjectTask(task).then(() => this.handleCloseView());
+    this.props.createProjectTask(task).then(() => this.handleCloseView('createView'));
   }
 
-  handleCloseView = () => {
-    this.setState({isCreateViewOpen: false});
+  handleUpdateTask = (task) => {
+    this.props.updateProjectTask(task).then(() => this.handleCloseView('editView'));
+  }
+
+  handleCloseView = (viewType) => {
+    switch (viewType) {
+      case 'createView':
+        this.setState({isCreateViewOpen: false});
+        break;
+      case 'editView':
+        this.setState({isEditViewOpen: false});
+        break;
+      default:
+        break;
+    }
   }
 
   handlePressCreate = () => {
@@ -65,12 +82,15 @@ class ProjectScreen extends Component {
     this.props.deleteTask(id);
   }
 
-  handleEditTask = () => {
-    // TODO
+  handleEditTask = (task) => {
+    this.setState({
+      isEditViewOpen: true,
+      editingTask: task
+    });
   }
 
   handleFinishTask = (task) => {
-    this.props.updateTask(task);
+    this.props.finishTask(task);
   }
 
   renderTasksList = (statusKey) => {
@@ -116,16 +136,33 @@ class ProjectScreen extends Component {
         <CSSTransition
           in={this.state.isCreateViewOpen}
           timeout={300}
-          classNames='taskCreateView'
+          classNames='taskFormView'
           unmountOnExit
         >
           {state => (
             <TaskCreateView
               id='projectTaskCreateView'
-              closeView={this.handleCloseView}
+              closeView={() => this.handleCloseView('createView')}
               projects={projectsData.data}
               projectId={match.params.id}
               onSubmit={this.handleCreateTask}
+              openSnackBar={openSnackBar}
+            />
+          )}
+        </CSSTransition>
+        <CSSTransition
+          in={this.state.isEditViewOpen}
+          timeout={300}
+          classNames='taskFormView'
+          unmountOnExit
+        >
+          {state => (
+            <TaskEditView
+              id='todayTaskEditView'
+              task={this.state.editingTask}
+              closeView={() => this.handleCloseView('editView')}
+              projects={projectsData.data}
+              onSubmit={this.handleUpdateTask}
               openSnackBar={openSnackBar}
             />
           )}
@@ -142,7 +179,8 @@ const mapDispatchToProps = (dispatch) => {
     deleteTask: (id) => dispatch(deleteTask(id)),
     openSnackBar: (msg) => dispatch(openSnackBar(msg)),
     createProjectTask: (task) => dispatch(createProjectTask(task)),
-    updateTask: (task) => dispatch(updateTask(task))
+    updateProjectTask: (task) => dispatch(updateProjectTask(task)),
+    finishTask: (task) => dispatch(finishTask(task))
   };
 };
 

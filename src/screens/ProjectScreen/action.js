@@ -40,3 +40,23 @@ export const createProjectTask = (task) => {
     );
   };
 };
+
+export const UPDATE_PROJECT_TASK_REQUEST = 'UPDATE_PROJECT_TASK_REQUEST';
+export const UPDATE_PROJECT_TASK_SUCCEEDED = 'UPDATE_PROJECT_TASK_SUCCEEDED';
+export const UPDATE_PROJECT_TASK_FAILED = 'UPDATE_PROJECT_TASK_FAILED';
+export const updateProjectTask = (task) => {
+  return (dispatch, getState) => {
+    dispatch({type: UPDATE_PROJECT_TASK_REQUEST});
+    return callAPI('put', `/api/todos`, task).then(
+      response => {
+        dispatch({type: UPDATE_PROJECT_TASK_SUCCEEDED, payload: task});
+        dispatch({type: OPEN_SNACKBAR, payload: '操作成功👍'});
+      },
+      error => {
+        dispatch({type: UPDATE_PROJECT_TASK_FAILED, error});
+        dispatch({type: OPEN_SNACKBAR, payload: '操作失败😭'});
+        throw error;
+      }
+    );
+  };
+};

@@ -1,5 +1,6 @@
 import * as types from './action';
 import * as appActionTypes from '../App/action';
+import { updateObjectInArray } from '../../base/utils/immutable';
 
 const INITIAL_STATE = {
   tasks: {
@@ -48,6 +49,22 @@ const projectReducer = (state = INITIAL_STATE, action) => {
         ...state,
         tasks: {
           data: state.tasks.data.concat([action.payload]),
+          loading: false
+        }
+      };
+    case types.UPDATE_PROJECT_TASK_REQUEST:
+      return {
+        ...state,
+        tasks: {
+          data: state.tasks.data,
+          loading: true
+        }
+      };
+    case types.UPDATE_PROJECT_TASK_SUCCEEDED:
+      return {
+        ...state,
+        tasks: {
+          data: updateObjectInArray(state.tasks.data, 'id', action),
           loading: false
         }
       };
