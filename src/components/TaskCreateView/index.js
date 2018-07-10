@@ -19,14 +19,13 @@ import zh_CN from 'rmc-date-picker/lib/locale/zh_CN';
 import Header from '../UI/Header';
 
 import { taskDegreeList, taskDegree, taskStatus, taskStatusList } from '../../base/constants/task';
+import { minDate, maxDate } from '../../base/constants/date';
 import './style.scss';
 import 'rmc-picker/assets/index.css';
 import 'rmc-date-picker/assets/index.css';
 import 'rmc-picker/assets/popup.css';
 
-export const minDate = new Date(2015, 8, 15, 10, 30, 0);
-export const maxDate = new Date(2049, 1, 1, 23, 49, 59);
-export let now = new Date();
+let now = new Date();
 
 class TaskCreateView extends Component {
   static propTypes = {
@@ -282,7 +281,7 @@ class TaskCreateView extends Component {
     const { closeView, id } = this.props;
     const { deadline, name, detail } = this.state;
     return (
-      <div className='taskCreateView'>
+      <div className='taskFormView'>
         <Header
           largeTitle='添加任务'
           leftIcon={<i className='material-icons'>close</i>}
@@ -290,7 +289,7 @@ class TaskCreateView extends Component {
           onRightPress={this.handleSubmit}
           onLeftPress={closeView}
         />
-        <form className='taskCreateView__form'>
+        <form className='taskFormView__form'>
           <div className='formField'>
             <div className='inner'>
               <label htmlFor='taskName'>Name</label>

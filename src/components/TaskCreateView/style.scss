@@ -1,4 +1,4 @@
-.taskCreateView {
+.taskFormView {
   position: absolute;
   left: 0;
   width: 100%;
@@ -43,20 +43,20 @@
   }
 }
 
-.taskCreateView-enter {
+.taskFormView-enter {
   top: 100%;
 }
 
-.taskCreateView-enter-done {
+.taskFormView-enter-done {
   top: 0;
   transition: all 300ms ease-in;
 }
 
-.taskCreateView-exit {
+.taskFormView-exit {
   top: 0;
 }
 
-.taskCreateView-exit-active {
+.taskFormView-exit-active {
   top: 100%;
   transition: all 300ms ease-in;
 }
