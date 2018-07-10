@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../../../public/icon.jpg';
-import background from '../../../public/background.jpg';
+import Header from '../../components/UI/Header';
+import background from '../../../public/login-bg.jpg';
 import './style.scss';
 
 class LoginScreen extends Component {
@@ -25,23 +24,31 @@ class LoginScreen extends Component {
   render () {
     const { email, password } = this.state.user;
     return (
-      <section className='login-container' style={{ backgroundImage: `url(${background})` }}>
+      <div className='login-container' style={{ backgroundImage: `url(${background})` }}>
+        <Header
+          largeTitle='One day'
+        />
         <main className='login-container__content'>
-          <div className='login-container__logo'>
-            <img src={logo} alt='logo' />
-          </div>
+          <p className='login-container__slogan'>
+            Sign in to start your brand new day!
+          </p>
           <form className='login-container__form'>
-            <div className='form-field'>
-              <input name='email' type='email' placeholder='邮箱' value={email} onChange={this.handleFormChange} />
+            <div className='formField'>
+              <input autoComplete='username' name='email' type='email' placeholder='测试帐号: robot-walle' value={email} onChange={this.handleFormChange} />
             </div>
-            <div className='form-field'>
-              <input name='password' type='password' placeholder='密码' value={password} onChange={this.handleFormChange} />
+            <div className='formField'>
+              <input
+                name='password'
+                autoComplete='current-password'
+                type='password'
+                placeholder='测试密码：569587'
+                value={password}
+                onChange={this.handleFormChange} />
             </div>
-            <button className='submit-btn' onClick={this.handleLogin}>登录</button>
+            <button className='login-container__submitBtn' onClick={this.handleLogin}>Login</button>
           </form>
-          <span className='login-container__signup-tip'>没有账户？<Link to='/signup'>立即注册</Link></span>
         </main>
-      </section>
+      </div>
     );
   }
 }
