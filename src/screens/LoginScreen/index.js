@@ -1,17 +1,38 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 import Header from '../../components/UI/Header';
+
+import { userLogin } from './action';
 import background from '../../../public/login-bg.jpg';
 import './style.scss';
 
 class LoginScreen extends Component {
+  static propTypes = {
+    userLogin: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
+  }
+
   state = {
     user: {
-      email: '',
+      username: '',
       password: ''
     }
   }
-  handleLogin = () => {
+  handleLogin = (e) => {
+    e.preventDefault();
     console.log(this.state.user);
+    const { history, userLogin } = this.props;
+    userLogin(this.state.user).then(
+      () => {
+        history.push('/');
+      },
+      (err) => {
+        return err;
+      }
+    );
   }
   handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +43,7 @@ class LoginScreen extends Component {
     this.setState({user: newUser});
   }
   render () {
-    const { email, password } = this.state.user;
+    const { username, password } = this.state.user;
     return (
       <div className='login-container' style={{ backgroundImage: `url(${background})` }}>
         <Header
@@ -34,10 +55,18 @@ class LoginScreen extends Component {
           </p>
           <form className='login-container__form'>
             <div className='formField'>
-              <input autoComplete='username' name='email' type='email' placeholder='测试帐号: robot-walle' value={email} onChange={this.handleFormChange} />
+              <input
+                required
+                autoComplete='username'
+                name='username'
+                type='text'
+                placeholder='测试帐号: robot-walle'
+                value={username}
+                onChange={this.handleFormChange} />
             </div>
             <div className='formField'>
               <input
+                required
                 name='password'
                 autoComplete='current-password'
                 type='password'
@@ -53,4 +82,10 @@ class LoginScreen extends Component {
   }
 }
 
-export default LoginScreen;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    userLogin: (user) => dispatch(userLogin(user))
+  };
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(LoginScreen));
