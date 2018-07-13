@@ -1,17 +1,41 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { closeSnackBar, openSnackBar } from '../components/action';
 import TodoListScreen from '../screens/TodoListScreen';
-import CreateTodoScreen from '../screens/CreateTodoScreen';
 import LoginScreen from '../screens/LoginScreen';
-import ArchiveListScreen from '../screens/ArchiveListScreen';
+import ProjectScreen from '../screens/ProjectScreen';
 import SnackBar from '../components/UI/SnackBar';
-import Drawer from '../components/UI/Drawer';
+import Drawer from '../components/Drawer';
+
+import { isLogin } from '../base/utils/auth';
+
+console.log('meiyou', isLogin());
 
 moment.locale('zh-cn');
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isLogin() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login'
+          }}
+        />
+      )
+    }
+  />
+);
+
+PrivateRoute.propTypes = {
+  component: PropTypes.func.isRequired
+};
 
 class AppRoute extends Component {
   static propTypes = {
@@ -26,10 +50,9 @@ class AppRoute extends Component {
       <BrowserRouter>
         <div>
           <Switch>
-            <Route exact path='/' component={TodoListScreen} />
+            <PrivateRoute exact path='/' component={TodoListScreen} />
             <Route exact path='/login' component={LoginScreen} />
-            <Route exact path='/archive' component={ArchiveListScreen} />
-            <Route exact path='/create' component={CreateTodoScreen} />
+            <PrivateRoute exact path='/projects/:id' component={ProjectScreen} />
           </Switch>
           <SnackBar
             isOpen={isSnackBarOpen}
