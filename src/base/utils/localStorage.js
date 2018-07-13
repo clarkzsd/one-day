@@ -1,14 +1,14 @@
-export const saveState = (state) => {
+export const saveData = (key, value) => {
   try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem('todos', serializedState);
+    const serializedValue = JSON.stringify(value);
+    localStorage.setItem(key, serializedValue);
   } catch (err) {}
 };
 
-export const loadTodoList = () => {
+export const getData = (key) => {
   try {
-    const serializedState = localStorage.getItem('todos');
-    return serializedState === null ? [] : JSON.parse(serializedState);
+    const serializedData = localStorage.getItem(key);
+    return serializedData === null ? [] : JSON.parse(serializedData);
   } catch (err) {
     return [];
   }
