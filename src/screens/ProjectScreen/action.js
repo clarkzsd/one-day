@@ -21,6 +21,19 @@ export const fetchProjectTasks = (projectId) => {
   };
 };
 
+export const FETCH_CURRENT_PROJECT_REQUEST = 'FETCH_CURRENT_PROJECT_REQUEST';
+export const FETCH_CURRENT_PROJECT_SUCCEEDED = 'FETCH_CURRENT_PROJECT_SUCCEEDED';
+export const FETCH_CURRENT_PROJECT_FAILED = 'FETCH_CURRENT_PROJECT_FAILED';
+export const fetchCurrentProject = (id) => {
+  return (dispatch, getState) => {
+    dispatch({type: FETCH_CURRENT_PROJECT_REQUEST});
+    return callAPI('get', `/api/projects/${id}`).then(
+      response => dispatch({type: FETCH_CURRENT_PROJECT_SUCCEEDED, payload: response.data}),
+      error => dispatch({type: FETCH_CURRENT_PROJECT_FAILED, error})
+    );
+  };
+};
+
 export const CREATE_PROJECT_TASK_REQUEST = 'CREATE_PROJECT_TASK_REQUEST';
 export const CREATE_PROJECT_TASK_SUCCEEDED = 'CREATE_PROJECT_TASK_SUCCEEDED';
 export const CREATE_PROJECT_TASK_FAILED = 'CREATE_PROJECT_TASK_FAILED';
@@ -57,6 +70,42 @@ export const updateProjectTask = (task) => {
         dispatch({type: OPEN_SNACKBAR, payload: '操作失败😭'});
         throw error;
       }
+    );
+  };
+};
+
+export const UPDATE_PROJECT_REQUEST = 'UPDATE_PROJECT_REQUEST';
+export const UPDATE_PROJECT_SUCCEEDED = 'UPDATE_PROJECT_SUCCEEDED';
+export const UPDATE_PROJECT_FAILED = 'UPDATE_PROJECT_FAILED';
+export const updateProject = (project) => {
+  return (dispatch, getState) => {
+    dispatch({type: UPDATE_PROJECT_REQUEST});
+    return callAPI('put', `/api/projects`, project).then(
+      response => {
+        dispatch({type: UPDATE_PROJECT_SUCCEEDED, payload: project});
+        dispatch({type: OPEN_SNACKBAR, payload: '操作成功👍'});
+      },
+      error => {
+        dispatch({type: UPDATE_PROJECT_FAILED, error});
+        dispatch({type: OPEN_SNACKBAR, payload: '操作失败😭'});
+        throw error;
+      }
+    );
+  };
+};
+
+export const DELETE_PROJECT_REQUEST = 'DELETE_PROJECT_REQUEST';
+export const DELETE_PROJECT_SUCCEEDED = 'DELETE_PROJECT_SUCCEEDED';
+export const DELETE_PROJECT_FAILED = 'DELETE_PROJECT_FAILED';
+export const deleteProject = (id) => {
+  return (dispatch, getState) => {
+    dispatch({type: DELETE_PROJECT_REQUEST});
+    return callAPI('delete', `/api/projects/${id}`).then(
+      (response) => {
+        dispatch({type: DELETE_PROJECT_SUCCEEDED, id});
+        dispatch({type: OPEN_SNACKBAR, payload: '删除成功'});
+      },
+      error => dispatch({type: DELETE_PROJECT_FAILED, error})
     );
   };
 };

@@ -6,6 +6,10 @@ const INITIAL_STATE = {
   tasks: {
     data: [],
     loading: false
+  },
+  currentProject: {
+    data: {},
+    loading: false
   }
 };
 
@@ -65,6 +69,38 @@ const projectReducer = (state = INITIAL_STATE, action) => {
         ...state,
         tasks: {
           data: updateObjectInArray(state.tasks.data, 'id', action),
+          loading: false
+        }
+      };
+    case types.FETCH_CURRENT_PROJECT_REQUEST:
+      return {
+        ...state,
+        currentProject: {
+          data: state.currentProject.data,
+          loading: true
+        }
+      };
+    case types.FETCH_CURRENT_PROJECT_SUCCEEDED:
+      return {
+        ...state,
+        currentProject: {
+          data: action.payload,
+          loading: true
+        }
+      };
+    case types.UPDATE_PROJECT_REQUEST:
+      return {
+        ...state,
+        currentProject: {
+          data: state.currentProject.data,
+          loading: true
+        }
+      };
+    case types.UPDATE_PROJECT_SUCCEEDED:
+      return {
+        ...state,
+        currentProject: {
+          data: action.payload,
           loading: false
         }
       };
