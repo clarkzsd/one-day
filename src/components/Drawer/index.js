@@ -8,6 +8,8 @@ import AboutModal from '../AboutModal';
 
 import { closeDrawer } from '../action';
 import { createProject } from '../../screens/App/action';
+import { isLogin } from '../../base/utils/auth';
+import { getData } from '../../base/utils/localStorage';
 
 import './style.scss';
 
@@ -115,6 +117,7 @@ class Drawer extends Component {
 
   render () {
     const { isDrawerOpen, closeDrawer } = this.props;
+    const currentUser = getData('currentUser');
     return (
       <div className={`drawer${isDrawerOpen ? ' slide-in' : ''}`}>
         <ToolBar
@@ -123,12 +126,18 @@ class Drawer extends Component {
         />
         <div className='drawer-content'>
           <div className='menu-item drawer__user-info'>
-            <Link to='/login' onClick={closeDrawer}>
-              <div className='inner'>
-                <i className='material-icons'>person</i>
-                <span className='menu-item-content'>登录</span>
+            {
+              isLogin() ? <div className='inner'>
+                <span className='drawer__emojiIcon'>👋</span>
+                <span className='menu-item-content'>Hello, {currentUser.username}</span>
               </div>
-            </Link>
+                : <Link to='/login' onClick={closeDrawer}>
+                  <div className='inner'>
+                    <i className='material-icons'>person</i>
+                    <span className='menu-item-content'>登录</span>
+                  </div>
+                </Link>
+            }
           </div>
           <div className='drawer__subtitle'>
             <div className='inner'>
