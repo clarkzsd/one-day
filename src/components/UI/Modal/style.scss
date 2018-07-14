@@ -10,11 +10,17 @@
   color: $black;
   box-shadow: 0 40px 77px rgba(0, 0, 0, 0.22), 0 27px 24px rgba(0, 0, 0, 0.2);
   border-radius: 2px;
+
+  i {
+    color: $light-blue;
+  }
 }
 
 .modal-header {
   padding: 24px 24px 20px;
   font-size: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .modal-body {
