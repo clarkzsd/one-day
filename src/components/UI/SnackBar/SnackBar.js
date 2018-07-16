@@ -40,7 +40,6 @@ class SnackBar extends Component {
   }
 
   startCloseTimer = () => {
-    console.log('startCloseTimer');
     if (this.props.duration) {
       this.closeTimer = setTimeout(() => {
         this.close();

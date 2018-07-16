@@ -23,7 +23,6 @@ class LoginScreen extends Component {
   }
   handleLogin = (e) => {
     e.preventDefault();
-    console.log(this.state.user);
     const { history, userLogin } = this.props;
     userLogin(this.state.user).then(
       () => {
