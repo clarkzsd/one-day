@@ -129,7 +129,7 @@ class Drawer extends Component {
             {
               isLogin() ? <div className='inner'>
                 <span className='drawer__emojiIcon'>👋</span>
-                <span className='menu-item-content'>Hello, {currentUser.username}</span>
+                <span className='menu-item-content'>Hi, {currentUser.username}</span>
               </div>
                 : <Link to='/login' onClick={closeDrawer}>
                   <div className='inner'>
