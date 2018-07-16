@@ -8,13 +8,62 @@ const taskStatus = {
   [TASK_STATUS_ARCHIVE]: 'archive'
 };
 
+const todayTaskStatus = {
+  [TASK_STATUS_TODO]: 'todo',
+  [TASK_STATUS_ARCHIVE]: 'archive'
+};
+
 const taskStatusList = [
-  'ready',
-  'todo',
-  'archive'
+  {
+    key: TASK_STATUS_READY,
+    value: 'ready'
+  }, {
+    key: TASK_STATUS_TODO,
+    value: 'todo'
+  }, {
+    key: TASK_STATUS_ARCHIVE,
+    value: 'archive'
+  }
+];
+
+const todayTaskStatusList = [
+  {
+    key: TASK_STATUS_TODO,
+    value: 'todo'
+  }, {
+    key: TASK_STATUS_ARCHIVE,
+    value: 'archive'
+  }
+];
+
+const TASK_DEGREE_URGENT = 0;
+const TASK_DEGREE_PRIMARY = 1;
+const TASK_DEGREE_SECONDARY = 2;
+
+const taskDegree = {
+  [TASK_DEGREE_URGENT]: 'urgent',
+  [TASK_DEGREE_PRIMARY]: 'primary',
+  [TASK_DEGREE_SECONDARY]: 'secondary'
+};
+
+const taskDegreeList = [
+  {
+    key: TASK_DEGREE_URGENT,
+    value: 'urgent'
+  }, {
+    key: TASK_DEGREE_PRIMARY,
+    value: 'primary'
+  }, {
+    key: TASK_DEGREE_SECONDARY,
+    value: 'secondary'
+  }
 ];
 
 export {
   taskStatus,
-  taskStatusList
+  taskStatusList,
+  todayTaskStatus,
+  todayTaskStatusList,
+  taskDegree,
+  taskDegreeList
 };
