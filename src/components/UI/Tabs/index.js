@@ -20,8 +20,8 @@ class Tabs extends Component {
 
   onTabsBarClick = (panelKey) => {
     const { onTabClick } = this.props;
-    this.setState({activeKey: panelKey});
     onTabClick && onTabClick(panelKey);
+    this.setState({activeKey: panelKey});
   }
 
   render () {
