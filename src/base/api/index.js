@@ -8,14 +8,14 @@ const callAPI = (method, url, data = {}, timeout = 8000) => {
     url: serverUrl + url,
     timeout,
     data,
-    method
+    method,
+    withCredentials: true
   }).then((response) => {
-    if (response.status === 401) {
-      window.location.href = '/';
-    }
     return response;
+  }).catch((err) => {
+    console.error(`API Error:\nCode: ${err.response.status}\nMessage: ${err.message}`);
+    throw err;
   });
-  // .catch((err) => {});
 };
 
 export default callAPI;
