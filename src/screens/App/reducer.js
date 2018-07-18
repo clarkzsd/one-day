@@ -1,4 +1,6 @@
 import * as types from './action';
+import * as projectTypes from '../ProjectScreen/action';
+import { updateObjectInArray } from '../../base/utils/immutable';
 
 const INITIAL_STATE = {
   projects: {
@@ -38,6 +40,39 @@ const appReducer = (state = INITIAL_STATE, action) => {
         ...state,
         projects: {
           data: state.projects.data.concat([action.payload]),
+          loading: false
+        }
+      };
+    case projectTypes.UPDATE_PROJECT_REQUEST:
+      return {
+        ...state,
+        projects: {
+          data: state.projects.data,
+          loading: true
+        }
+      };
+    case projectTypes.UPDATE_PROJECT_SUCCEEDED:
+      return {
+        ...state,
+        projects: {
+          data: updateObjectInArray(state.projects.data, 'id', action),
+          loading: false
+        }
+      };
+    case projectTypes.DELETE_PROJECT_REQUEST:
+      return {
+        ...state,
+        projects: {
+          data: state.projects.data,
+          loading: true
+        }
+      };
+    case projectTypes.DELETE_PROJECT_SUCCEEDED:
+      const updates = state.projects.data.filter(item => item.id !== action.id);
+      return {
+        ...state,
+        projects: {
+          data: updates,
           loading: false
         }
       };
