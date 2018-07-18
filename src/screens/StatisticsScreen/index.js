@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/bar';
 import 'echarts/lib/chart/pie';
@@ -19,6 +20,12 @@ import Const from '../../base/constants';
 import './style.scss';
 
 const TabsPanel = Tabs.TabsPanel;
+
+const last7DaysList = [];
+const today = new Date().getDate();
+for (let index = 6; index > -1; index--) {
+  last7DaysList.push(moment().date(today - index).date());
+}
 
 let todayBarChart, todayPieChart, weekBarChart, weekPieChart;
 
@@ -48,7 +55,7 @@ class StatisticsScreen extends Component {
         {value: todayData.data.specificData.unfinished, name: '未完成'},
         {value: todayData.data.specificData.finished, name: '已完成'}
       ]);
-      this.setBarChartOption(weekBarChart, Const.date.sevenWeekDays, weekData.data.last7DaysStatisticsList);
+      this.setBarChartOption(weekBarChart, last7DaysList, weekData.data.last7DaysStatisticsList);
       this.setPieChartOption(weekPieChart, [
         {value: weekData.data.specificData.unfinished, name: '未完成'},
         {value: weekData.data.specificData.finished, name: '已完成'}
@@ -87,9 +94,12 @@ class StatisticsScreen extends Component {
           }
         ],
         xAxis: {
+          name: xAxisData.length === 24 ? '时' : '日',
           data: xAxisData
         },
-        yAxis: {},
+        yAxis: {
+          name: '任务个数'
+        },
         series: [
           {
             name: '任务个数',
