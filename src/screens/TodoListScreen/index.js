@@ -14,7 +14,7 @@ import { fetchTodayTodos, updateTodayTask } from './action';
 import { fetchProjects, deleteTask, createTask, finishTask } from '../App/action';
 import { openDrawer, openSnackBar } from '../../components/action';
 
-import { todayTaskStatusList } from '../../base/constants/task';
+import Const from '../../base/constants';
 
 import './style.scss';
 
@@ -116,7 +116,7 @@ class TodoListScreen extends Component {
         />
         <Tabs defaultActiveKey='0'>
           {
-            todayTaskStatusList.map((item, index) => {
+            Const.task.todayTaskStatusList.map((item, index) => {
               const { value } = item;
               return (
                 <TabsPanel

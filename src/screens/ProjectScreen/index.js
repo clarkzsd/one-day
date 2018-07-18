@@ -25,7 +25,7 @@ import {
   fetchCurrentProject
 } from './action';
 
-import { taskStatusList } from '../../base/constants/task';
+import Const from '../../base/constants';
 import './style.scss';
 
 const TabsPanel = Tabs.TabsPanel;
@@ -166,7 +166,7 @@ class ProjectScreen extends Component {
         />
         <Tabs defaultActiveKey='0'>
           {
-            taskStatusList.map((item, index) => {
+            Const.task.taskStatusList.map((item, index) => {
               const { value } = item;
               return (
                 <TabsPanel

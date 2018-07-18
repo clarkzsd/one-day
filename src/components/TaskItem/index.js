@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { taskDegree } from '../../base/constants/task';
+import Const from '../../base/constants';
 import moment from 'moment';
 import classnames from 'classnames';
 
@@ -29,7 +29,8 @@ class TaskItem extends Component {
 
   handleOnEdit = () => {
     const { data, onEdit } = this.props;
-    onEdit && onEdit(data.id);
+    this.setState({isSwiped: false});
+    onEdit && onEdit(data);
   }
 
   handleOnDelete = () => {
@@ -95,7 +96,7 @@ class TaskItem extends Component {
           onTouchMove={this.handleTouchMove}>
           <div className='taskItem__content'>
             <div className='taskItem__header'>
-              <span className={`taskItem__statusDot taskItem__statusDot--${taskDegree[degree]}`} />
+              <span className={`taskItem__statusDot taskItem__statusDot--${Const.task.taskDegree[degree]}`} />
               <span className='taskItem__title'>
                 {name}
               </span>

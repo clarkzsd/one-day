@@ -18,8 +18,7 @@ import zh_CN from 'rmc-date-picker/lib/locale/zh_CN';
 
 import Header from '../UI/Header';
 
-import { taskDegreeList, taskDegree, taskStatus, taskStatusList } from '../../base/constants/task';
-import { minDate, maxDate } from '../../base/constants/date';
+import Const from '../../base/constants';
 import './style.scss';
 import 'rmc-picker/assets/index.css';
 import 'rmc-date-picker/assets/index.css';
@@ -50,8 +49,8 @@ class TaskCreateView extends Component {
   datePicker = (
     <DatePicker
       rootNativeProps={{'data-xx': 'yy'}}
-      minDate={minDate}
-      maxDate={maxDate}
+      minDate={Const.date.minDate}
+      maxDate={Const.date.maxDate}
       defaultDate={now}
       mode='date'
       locale={zh_CN}
@@ -164,7 +163,7 @@ class TaskCreateView extends Component {
             onValueChange={this.onStatusChange}
           >
             {
-              taskStatusList.slice(0, 2).map((item) => (
+              Const.task.taskStatusList.slice(0, 2).map((item) => (
                 <Picker.Item key={item.key} value={item.key}>
                   {item.value.toUpperCase()}
                 </Picker.Item>
@@ -178,7 +177,7 @@ class TaskCreateView extends Component {
         <div className='formField'>
           <div className='inner'>
             <label htmlFor='taskStatus'>Status</label>
-            <input type='text' id='taskStatus' name='status' value={status !== null ? taskStatus[status] : ''} />
+            <input type='text' id='taskStatus' name='status' value={status !== null ? Const.task.taskStatus[status] : ''} />
           </div>
         </div>
       </Popup>
@@ -197,7 +196,7 @@ class TaskCreateView extends Component {
             onValueChange={this.onDegreeChange}
           >
             {
-              taskDegreeList.map((item) => (
+              Const.task.taskDegreeList.map((item) => (
                 <Picker.Item key={item.key} value={item.key}>
                   {item.value.toUpperCase()}
                 </Picker.Item>
@@ -211,7 +210,7 @@ class TaskCreateView extends Component {
         <div className='formField'>
           <div className='inner'>
             <label htmlFor='taskDegree'>Degree</label>
-            <input type='text' id='taskDegree' name='degree' value={degree !== null ? taskDegree[degree] : ''} />
+            <input type='text' id='taskDegree' name='degree' value={degree !== null ? Const.task.taskDegree[degree] : ''} />
           </div>
         </div>
       </Popup>
