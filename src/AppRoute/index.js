@@ -7,12 +7,11 @@ import { closeSnackBar, openSnackBar } from '../components/action';
 import TodoListScreen from '../screens/TodoListScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ProjectScreen from '../screens/ProjectScreen';
+import StatisticsScreen from '../screens/StatisticsScreen';
 import SnackBar from '../components/UI/SnackBar';
 import Drawer from '../components/Drawer';
 
 import { isLogin } from '../base/utils/auth';
-
-console.log('meiyou', isLogin());
 
 moment.locale('zh-cn');
 
@@ -53,6 +52,7 @@ class AppRoute extends Component {
             <PrivateRoute exact path='/' component={TodoListScreen} />
             <Route exact path='/login' component={LoginScreen} />
             <PrivateRoute exact path='/projects/:id' component={ProjectScreen} />
+            <PrivateRoute exact path='/statistics' component={StatisticsScreen} />
           </Switch>
           <SnackBar
             isOpen={isSnackBarOpen}
