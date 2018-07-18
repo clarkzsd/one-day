@@ -25,7 +25,7 @@ export const deleteTask = (id) => {
         dispatch({type: DELETE_TASK_SUCCEEDED, id});
         dispatch({type: OPEN_SNACKBAR, payload: '删除成功'});
       },
-      error => dispatch({type: FETCH_PROJECTS_FAILED, error})
+      error => dispatch({type: DELETE_TASK_FAILED, error})
     );
   };
 };
