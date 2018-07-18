@@ -59,11 +59,25 @@ const taskDegreeList = [
   }
 ];
 
-export {
+const taskStatisticsStatusList = [
+  {
+    key: 0,
+    value: 'unfinished'
+  }, {
+    key: 1,
+    value: 'finished'
+  }, {
+    key: 2,
+    value: 'created'
+  }
+];
+
+export default {
   taskStatus,
   taskStatusList,
   todayTaskStatus,
   todayTaskStatusList,
+  taskStatisticsStatusList,
   taskDegree,
   taskDegreeList
 };
