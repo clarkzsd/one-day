@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ToolBar from '../UI/ToolBar';
 import AboutModal from '../AboutModal';
 
 import { closeDrawer } from '../action';
@@ -120,10 +119,16 @@ class Drawer extends Component {
     const currentUser = getData('currentUser');
     return (
       <div className={`drawer${isDrawerOpen ? ' slide-in' : ''}`}>
-        <ToolBar
-          left={<i className='material-icons' style={{ color: '#03A9F4' }}>close</i>}
-          onLeftPress={closeDrawer}
-        />
+        <div className='drawer__header'>
+          <div className='inner'>
+            <button className='header__btn--left' onClick={closeDrawer}>
+              <i className='material-icons'>close</i>
+            </button>
+            <button className='header__btn--right' onClick={closeDrawer}>
+              <i className='material-icons'>exit_to_app</i>
+            </button>
+          </div>
+        </div>
         <div className='drawer-content'>
           <div className='menu-item drawer__user-info'>
             {
