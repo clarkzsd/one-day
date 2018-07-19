@@ -1,7 +1,7 @@
 import Cookie from 'js-cookie';
 
 const isLogin = () => {
-  return Cookie.get('tk');
+  return Cookie.get('tk') && Cookie.get('tk.sig');
 };
 
 const logOut = () => {
