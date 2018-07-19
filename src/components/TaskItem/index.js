@@ -24,7 +24,8 @@ class TaskItem extends Component {
 
   state = {
     isSwiped: false,
-    isFinished: false
+    isFinished: false,
+    isMouseDown: false
   }
 
   handleOnEdit = () => {
@@ -73,12 +74,17 @@ class TaskItem extends Component {
   }
 
   handleMouseDown = (e) => {
+    this.setState({isMouseDown: true});
     this.xDown = e.clientX;
     this.yDown = e.clientY;
   }
 
+  handleMouseUp = (e) => {
+    this.setState({isMouseDown: false});
+  }
+
   handleMouseMove = (e) => {
-    if (!this.xDown || !this.yDown) {
+    if ((!this.xDown || !this.yDown) && !this.state.isMouseDown) {
       return;
     }
 
@@ -116,6 +122,7 @@ class TaskItem extends Component {
       <div className='taskItem-container'>
         <div
           className={taskItemCls}
+          onMouseUp={this.handleMouseUp}
           onMouseDown={this.handleMouseDown}
           onMouseMove={this.handleMouseMove}
           onTouchStart={this.handleTouchStart}
