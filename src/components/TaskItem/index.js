@@ -72,6 +72,30 @@ class TaskItem extends Component {
     }
   }
 
+  handleMouseDown = (e) => {
+    this.xDown = e.clientX;
+    this.yDown = e.clientY;
+  }
+
+  handleMouseMove = (e) => {
+    if (!this.xDown || !this.yDown) {
+      return;
+    }
+
+    let isSwiped;
+    let xUp = e.clientX;
+    let yUp = e.clientY;
+
+    let xDiff = this.xDown - xUp;
+    let yDiff = this.yDown - yUp;
+    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+      isSwiped = xDiff > 0;
+      this.setState({
+        isSwiped
+      });
+    }
+  }
+
   renderCheckBox () {
     return this.state.isFinished
       ? <span className='taskItem__checkBox taskItem__checkBox--checked'>
@@ -92,6 +116,8 @@ class TaskItem extends Component {
       <div className='taskItem-container'>
         <div
           className={taskItemCls}
+          onMouseDown={this.handleMouseDown}
+          onMouseMove={this.handleMouseMove}
           onTouchStart={this.handleTouchStart}
           onTouchMove={this.handleTouchMove}>
           <div className='taskItem__content'>

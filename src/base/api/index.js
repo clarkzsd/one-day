@@ -14,6 +14,10 @@ const callAPI = (method, url, data = {}, timeout = 8000) => {
     return response;
   }).catch((err) => {
     console.error(`API Error:\nCode: ${err.response.status}\nMessage: ${err.message}`);
+    if (err.response.status === 401) {
+      window.location.href = '/';
+      return;
+    }
     throw err;
   });
 };

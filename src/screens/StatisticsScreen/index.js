@@ -98,7 +98,7 @@ class StatisticsScreen extends Component {
           data: xAxisData
         },
         yAxis: {
-          name: '任务个数'
+          name: '完成任务/个'
         },
         series: [
           {
@@ -115,10 +115,10 @@ class StatisticsScreen extends Component {
     if (key === '1') {
       console.log('trigger');
       weekBarChart.resize({
-        width: 343
+        width: todayBarChart.getWidth()
       });
       weekPieChart.resize({
-        width: 206,
+        width: todayPieChart.getWidth(),
         height: 250
       });
     }
