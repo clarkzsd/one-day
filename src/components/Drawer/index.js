@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import AboutModal from '../AboutModal';
 
-import { closeDrawer } from '../action';
+import { closeDrawer, openSnackBar } from '../action';
 import { createProject } from '../../screens/App/action';
-import { isLogin } from '../../base/utils/auth';
+import { isLogin, logOut } from '../../base/utils/auth';
 import { getData } from '../../base/utils/localStorage';
 
 import './style.scss';
@@ -68,6 +68,13 @@ class Drawer extends Component {
     this.setState({isModalOpen: true});
   }
 
+  handleLogOut = () => {
+    logOut();
+    this.props.closeDrawer();
+    this.props.openSnackBar('退出登陆成功');
+    this.props.history.push('/login');
+  }
+
   handleNewProjectChange = (e) => {
     this.setState({newProjectName: e.target.value});
   }
@@ -124,7 +131,7 @@ class Drawer extends Component {
             <button className='header__btn--left' onClick={closeDrawer}>
               <i className='material-icons'>close</i>
             </button>
-            <button className='header__btn--right' onClick={closeDrawer}>
+            <button className='header__btn--right' onClick={this.handleLogOut}>
               <i className='material-icons'>exit_to_app</i>
             </button>
           </div>
@@ -200,6 +207,7 @@ const mapStateToProps = ({ ui, app }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     closeDrawer: () => dispatch(closeDrawer()),
+    openSnackBar: (msg) => dispatch(openSnackBar(msg)),
     createProject: (project) => dispatch(createProject(project))
   };
 };
@@ -207,8 +215,10 @@ const mapDispatchToProps = (dispatch) => {
 Drawer.propTypes = {
   isDrawerOpen: PropTypes.bool.isRequired,
   closeDrawer: PropTypes.func.isRequired,
+  openSnackBar: PropTypes.func.isRequired,
   createProject: PropTypes.func.isRequired,
-  projectsData: PropTypes.object.isRequired
+  projectsData: PropTypes.object.isRequired,
+  history: PropTypes.object
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Drawer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Drawer));
