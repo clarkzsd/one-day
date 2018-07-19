@@ -2,7 +2,9 @@
   "extends": ["standard", "standard-react"],
   "parser": "babel-eslint",
   "rules": {
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "standard/no-callback-literal": 0,
+    "camelcase": 0
   },
   "env": {
     "browser": true

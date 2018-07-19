@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import './style.scss';
 
 class Modal extends Component {
+  onClose = () => {
+    const { onModalClose } = this.props;
+    onModalClose && onModalClose();
+  }
+
   render () {
-    const { footer, title } = this.props;
+    const { footer, title, onModalClose } = this.props;
     return (
       <div className='modal-wrapper'>
         <div className='modal-mask' />
@@ -12,6 +17,12 @@ class Modal extends Component {
           <div className='modal-content'>
             <header className='modal-header'>
               <h4 className='modal-title'>{title}</h4>
+              {
+                onModalClose &&
+                <button className='modal__rightBtn' onClick={this.onClose}>
+                  <i className='material-icons'>close</i>
+                </button>
+              }
             </header>
             <div className='modal-body'>
               {this.props.children}
@@ -34,6 +45,7 @@ Modal.propTypes = {
     PropTypes.node
   ]).isRequired,
   footer: PropTypes.node,
+  onModalClose: PropTypes.func,
   title: PropTypes.string.isRequired
 };
 

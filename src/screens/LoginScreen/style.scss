@@ -1,0 +1,44 @@
+.login-container {
+  box-sizing: border-box;
+  padding: 0 32px;
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &__slogan {
+    color: $gray-500;
+    font-size: 32px;
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+
+  &__content {
+    padding: 0 16px;
+  }
+
+
+  .formField {
+    width: 100%;
+    box-sizing: border-box;
+    height: 56px;
+    padding-top: 10px;
+
+    input {
+      color: #000000;
+      font-size: 16px;
+      background-color: transparent;
+      padding: 12px 0;
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid $gray-500;
+    }
+  }
+
+  &__submitBtn {
+    cursor: pointer;
+    font-size: 32px;
+    margin-top: 2em;
+    color: $light-blue;
+  }
+}

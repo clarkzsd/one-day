@@ -1,0 +1,7 @@
+.tabs__panel {
+  display: none;
+  position: relative;
+  &--active {
+    display: block;
+  }
+}

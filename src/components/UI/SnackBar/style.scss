@@ -1,4 +1,4 @@
-.snack-bar {
+.snackbar {
   display: flex;
   align-items: center;
   background-color: #323232;
@@ -6,16 +6,29 @@
   width: 100%;
   font-size: 14px;
   position: fixed;
-  bottom: -100%;
-  transition: 1s;
-  color: #fff;
+  left: 0;
+  color: $light-white;
+  z-index: 1001;
 
   .inner {
     padding: 0 48px;
   }
 }
 
-.snack-bar-popup {
-  transition: 1s;
+.snackbar-enter {
+  bottom: -100%;
+}
+
+.snackbar-enter-done {
   bottom: 0;
+  transition: bottom 500ms ease-in;
+}
+
+.snackbar-exit {
+  bottom: 0;
+}
+
+.snackbar-exit-active {
+  bottom: -100%;
+  transition: bottom 500ms ease-in;
 }

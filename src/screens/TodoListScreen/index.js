@@ -1,74 +1,204 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { connect } from 'react-redux';
-import Header from '../../components/TodoList/Header';
-import SectionTitle from '../../components/UI/SectionTitle';
-import TodoList from '../../components/TodoList';
+import { CSSTransition } from 'react-transition-group';
 import FloatingButton from '../../components/UI/FloatingButton';
-import { fetchTodos } from '../../actions/todo';
-import { openDrawer } from '../../actions/ui';
-import TodoListEmpty from '../../components/TodoList/TodoListEmpty';
+import TaskCreateView from '../../components/TaskCreateView';
+import TaskEditView from '../../components/TaskEditView';
+import TaskItem from '../../components/TaskItem';
+import Header from '../../components/UI/Header';
+import Tabs from '../../components/UI/Tabs';
+
+import { fetchTodayTodos, updateTodayTask } from './action';
+import { fetchProjects, deleteTask, createTask, finishTask } from '../App/action';
+import { openDrawer, openSnackBar } from '../../components/action';
+
+import Const from '../../base/constants';
+
 import './style.scss';
 
+const TabsPanel = Tabs.TabsPanel;
+
 class TodoListScreen extends Component {
+  state = {
+    isCreateViewOpen: false,
+    isEditViewOpen: false,
+    editingTask: null
+  }
+
+  componentDidMount () {
+    const { fetchTodayTodos, fetchProjects } = this.props;
+    fetchProjects().then(() => fetchTodayTodos());
+  }
+
+  getProjectName = (id) => {
+    const { projectsData } = this.props;
+    let { name } = projectsData.data.find(item => item.id === id);
+    return name;
+  }
+
   onPressCreate = () => {
-    this.props.history.push('/create');
+    this.setState({isCreateViewOpen: true});
   }
-  renderTodoList = (list) => {
-    return list && list.length ? <TodoList list={list} /> : <TodoListEmpty placeHolder='戳右下角按钮，开启你的一天~' />;
+
+  handleEditTask = (task) => {
+    this.setState({
+      isEditViewOpen: true,
+      editingTask: task
+    });
   }
-  renderFinishedList = (list) => {
-    return list && list.length ? <TodoList list={list} /> : '';
+
+  handleCreateTask = (task) => {
+    this.props.createTask(task).then(() => this.handleCloseView('createView'));
   }
+
+  handleUpdateTask = (task) => {
+    this.props.updateTodayTask(task).then(() => this.handleCloseView('editView'));
+  }
+
+  handleFinishTask = (task) => {
+    this.props.finishTask(task);
+  }
+
+  handleDeleteTask = (id) => {
+    this.props.deleteTask(id);
+  }
+
+  handleCloseView = (viewType) => {
+    switch (viewType) {
+      case 'createView':
+        this.setState({isCreateViewOpen: false});
+        break;
+      case 'editView':
+        this.setState({isEditViewOpen: false});
+        break;
+      default:
+        break;
+    }
+  }
+
+  renderTasksList = (statusKey) => {
+    const { todayTodosData } = this.props;
+    if (todayTodosData.loading) {
+      return <span className='todayContainer__todoList--empty'>
+        loading……
+      </span>;
+    }
+    const tasks = todayTodosData.data;
+    const selectedTasks = tasks.filter(task => task.status === statusKey);
+    if (statusKey === 1 && selectedTasks.length === 0) {
+      return <span className='todayContainer__todoList--empty'>
+        戳右下角按钮，开启你的一天~
+      </span>;
+    }
+    return selectedTasks.map((task) => {
+      const projectName = this.getProjectName(task.project_id);
+      return <TaskItem
+        data={task}
+        key={task.id}
+        projectName={projectName}
+        onEdit={this.handleEditTask}
+        onFinish={this.handleFinishTask}
+        onDelete={this.handleDeleteTask}
+      />;
+    });
+  }
+
   render () {
-    const { todoListLength, finishedList, unfinishedList } = this.props;
-    const percentage = todoListLength > 0 ? Math.round((finishedList.length / todoListLength) * 100) : 100;
+    const { openDrawer, projectsData, openSnackBar } = this.props;
     return (
-      <div className='todolist-screen'>
+      <div className='todayContainer'>
         <Header
-          onToolBarLeftPress={this.props.openDrawer}
-          urgentCount={unfinishedList.filter((item) => item.status === 'urgent').length}
-          primaryCount={unfinishedList.filter((item) => item.status === 'primary').length}
-          secondaryCount={unfinishedList.filter((item) => item.status === 'secondary').length}
-          percentage={percentage}
+          largeTitle='Today'
+          leftIcon={<i className='material-icons'>menu</i>}
+          onLeftPress={openDrawer}
         />
-        <div className='top' style={{ height: '250px' }} />
-        <main className='todolist-content'>
-          <SectionTitle name='代办' />
-          {this.renderTodoList(unfinishedList)}
-          <SectionTitle name='已完成' count={finishedList.length} />
-          {this.renderFinishedList(finishedList)}
-        </main>
-        <FloatingButton icon='add' onPress={this.onPressCreate} />
+        <Tabs defaultActiveKey='0'>
+          {
+            Const.task.todayTaskStatusList.map((item, index) => {
+              const { value } = item;
+              return (
+                <TabsPanel
+                  key={index}
+                  panelKey={`${index}`}
+                  tabTitle={value.toUpperCase()}>
+                  {this.renderTasksList(item.key)}
+                </TabsPanel>
+              );
+            })
+          }
+        </Tabs>
+        <FloatingButton icon={<i className='material-icons'>add</i>} onPress={this.onPressCreate} />
+        <CSSTransition
+          in={this.state.isCreateViewOpen}
+          timeout={300}
+          classNames='taskFormView'
+          unmountOnExit
+        >
+          {state => (
+            <TaskCreateView
+              id='todayTaskCreateView'
+              closeView={() => this.handleCloseView('createView')}
+              projects={projectsData.data}
+              onSubmit={this.handleCreateTask}
+              openSnackBar={openSnackBar}
+            />
+          )}
+        </CSSTransition>
+        <CSSTransition
+          in={this.state.isEditViewOpen}
+          timeout={300}
+          classNames='taskFormView'
+          unmountOnExit
+        >
+          {state => (
+            <TaskEditView
+              id='todayTaskEditView'
+              task={this.state.editingTask}
+              closeView={() => this.handleCloseView('editView')}
+              projects={projectsData.data}
+              onSubmit={this.handleUpdateTask}
+              openSnackBar={openSnackBar}
+            />
+          )}
+        </CSSTransition>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ todos }) => {
-  const todayList = todos.data.filter((item) => item.finishedAt === null || moment().diff(moment.unix(item.finishedAt), 'days') <= 0);
+const mapStateToProps = ({ home, app }) => {
   return {
-    todoListLength: todayList.length,
-    finishedList: todayList.filter((item) => item.status === 'finished'),
-    unfinishedList: todayList.filter((item) => item.status !== 'finished')
+    todayTodosData: home.todos,
+    projectsData: app.projects
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchTodos: () => dispatch(fetchTodos()),
-    openDrawer: () => dispatch(openDrawer())
+    fetchTodayTodos: () => dispatch(fetchTodayTodos()),
+    fetchProjects: () => dispatch(fetchProjects()),
+    openDrawer: () => dispatch(openDrawer()),
+    deleteTask: (id) => dispatch(deleteTask(id)),
+    updateTodayTask: (task) => dispatch(updateTodayTask(task)),
+    finishTask: (task) => dispatch(finishTask(task)),
+    createTask: (task) => dispatch(createTask(task)),
+    openSnackBar: (msg) => dispatch(openSnackBar(msg))
   };
 };
 
 TodoListScreen.propTypes = {
+  todayTodosData: PropTypes.object.isRequired,
+  projectsData: PropTypes.object.isRequired,
   openDrawer: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
-  todoListLength: PropTypes.number.isRequired,
-  finishedList: PropTypes.array.isRequired,
-  unfinishedList: PropTypes.array.isRequired
+  openSnackBar: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
+  createTask: PropTypes.func.isRequired,
+  fetchTodayTodos: PropTypes.func.isRequired,
+  fetchProjects: PropTypes.func.isRequired,
+  finishTask: PropTypes.func.isRequired,
+  updateTodayTask: PropTypes.func.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoListScreen));
