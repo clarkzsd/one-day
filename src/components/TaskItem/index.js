@@ -7,6 +7,11 @@ import classnames from 'classnames';
 import './style.scss';
 
 class TaskItem extends Component {
+  constructor (props) {
+    super(props);
+    this.handleMouseMove = this.funcWhenMouseMove.bind(this);
+  }
+
   static propTypes = {
     data: PropTypes.shape({
       id: PropTypes.number,
@@ -74,17 +79,21 @@ class TaskItem extends Component {
   }
 
   handleMouseDown = (e) => {
-    this.setState({isMouseDown: true});
+    this.handleMouseMove = this.funcWhenMouseMove.bind(this);
+    this.setState({ isMouseDown: true });
     this.xDown = e.clientX;
     this.yDown = e.clientY;
   }
 
   handleMouseUp = (e) => {
-    this.setState({isMouseDown: false});
+    if (this.handleMouseMove) {
+      this.handleMouseMove = null;
+      this.setState({ isMouseDown: false });
+    }
   }
 
-  handleMouseMove = (e) => {
-    if ((!this.xDown || !this.yDown) && !this.state.isMouseDown) {
+  funcWhenMouseMove (e) {
+    if ((!this.xDown || !this.yDown)) {
       return;
     }
 
