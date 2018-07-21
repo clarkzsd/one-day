@@ -1,5 +1,6 @@
 import callAPI from '../../base/api';
 import { OPEN_SNACKBAR } from '../../components/action';
+import moment from 'moment';
 
 export const FETCH_PROJECTS_REQUEST = 'FETCH_PROJECTS_REQUEST';
 export const FETCH_PROJECTS_SUCCEEDED = 'FETCH_PROJECTS_SUCCEEDED';
@@ -36,7 +37,11 @@ export const FINISH_TASK_FAILED = 'FINISH_TASK_FAILED';
 export const finishTask = (task) => {
   return (dispatch, getState) => {
     dispatch({type: FINISH_TASK_REQUEST});
-    return callAPI('put', `/api/todos`, task).then(
+    const newTask = {
+      ...task,
+      finished_at: moment().format('YYYY-MM-DD HH:mm:ss')
+    };
+    return callAPI('put', `/api/todos`, newTask).then(
       response => dispatch({type: OPEN_SNACKBAR, payload: '完成任务👍'}),
       error => {
         dispatch({type: FINISH_TASK_FAILED, error});
