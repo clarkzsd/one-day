@@ -292,7 +292,7 @@ class TaskCreateView extends Component {
           <div className='formField'>
             <div className='inner'>
               <label htmlFor='taskName'>Name</label>
-              <input onChange={this.onFormFieldChange} type='text' maxLength='10' id='taskName' name='name' value={name} />
+              <input onChange={this.onFormFieldChange} type='text' maxLength='24' id='taskName' name='name' value={name} />
             </div>
           </div>
           <div className='formField'>
