@@ -1,10 +1,10 @@
 # OneDay
 
-OneDay is a Todo application in Material Design.
+OneDay is a project-driven Todo application.
 
-一个 Material Design 风格的待办事项应用。
+一个项目驱动的待办事项应用。
 
-**地址：** http://oneday.sytone.me
+**预览地址：** http://45.77.211.183:5000
 
 ## 技术栈
 
@@ -12,7 +12,8 @@ React.js、Redux、redux-thunk
 
 ## 预览
 
-![](https://i.loli.net/2018/03/27/5aba25810e467.jpg)
+![](https://i.loli.net/2018/07/22/5b5436756e1a6.jpg)
+![](https://i.loli.net/2018/07/22/5b543799389ed.jpg)
 
 ## Development
 
@@ -29,10 +30,3 @@ yarn start
 # build for production
 yarn build
 ```
-
-## TODO
-
-- [ ] 帐号体系（云同步）
-- [ ] PWA features
-- [ ] 番茄钟
-- [ ] Sliding Items
